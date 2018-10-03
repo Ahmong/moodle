@@ -1065,9 +1065,11 @@ class core_renderer extends renderer_base {
 
         if ($this->page->pagetype == 'site-index') {
             // Special case for site home page - please do not remove
+            /* commented by MZH 2018/8/8
             return '<div class="sitelink">' .
                    '<a title="Moodle" href="http://moodle.org/">' .
                    '<img src="' . $this->image_url('moodlelogo') . '" alt="'.get_string('moodlelogo').'" /></a></div>';
+            */
 
         } else if (!empty($CFG->target_release) && $CFG->target_release != $CFG->release) {
             // Special case for during install/upgrade.
