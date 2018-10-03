@@ -1170,8 +1170,7 @@ class core_renderer extends renderer_base {
             return '<div class="sitelink">' .
                    '<a title="Moodle" href="http://moodle.org/">' .
                    '<img src="' . $this->image_url('moodlelogo_grayhat') . '" alt="'.get_string('moodlelogo').'" /></a></div>';
-           */
-
+            */
         } else if (!empty($CFG->target_release) && $CFG->target_release != $CFG->release) {
             // Special case for during install/upgrade.
             return '<div class="sitelink">'.
