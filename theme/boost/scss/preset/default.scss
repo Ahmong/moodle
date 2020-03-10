@@ -55,21 +55,30 @@ $breadcrumb-bg:                     transparent !default;
 $breadcrumb-divider: "/" !default;
 $breadcrumb-divider-rtl: "/" !default;
 
+// Floating elements positions
+$gototop-bottom-position: 50px !default;
+
 // Alerts
 $alert-border-width:                0 !default;
 
 $card-group-margin: .25rem;
 
-$theme-colors: (
+// Custom control size
+$custom-control-indicator-size: 1.25rem;
+
+// stylelint-disable
+$theme-colors: () !default;
+$theme-colors: map-merge((
     primary: $primary,
-    secondary: $gray-200,
+    secondary: $gray-400,
     success: $success,
     info: $info,
     warning: $orange,
     danger: $danger,
     light: $gray-100,
     dark: $gray-800
-);
+), $theme-colors);
+// stylelint-enable
 
 // Import FontAwesome.
 @import "fontawesome";
@@ -107,3 +116,5 @@ body {
     @include button-outline-variant($gray-600);
     border-color: $border-color;
 }
+
+@include bg-variant(".bg-gray", $gray-200);

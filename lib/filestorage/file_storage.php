@@ -598,7 +598,7 @@ class file_storage {
      * @param int $contextid context ID
      * @param string $component component
      * @param mixed $filearea file area/s, you cannot specify multiple fileareas as well as an itemid
-     * @param int $itemid item ID or all files if not specified
+     * @param int|int[]|false $itemid item ID(s) or all files if not specified
      * @param string $sort A fragment of SQL to use for sorting
      * @param bool $includedirs whether or not include directories
      * @param int $updatedsince return files updated since this time
@@ -617,8 +617,10 @@ class file_storage {
         if ($itemid !== false && is_array($filearea)) {
             throw new coding_exception('You cannot specify multiple fileareas as well as an itemid.');
         } else if ($itemid !== false) {
-            $itemidsql = ' AND f.itemid = :itemid ';
-            $conditions['itemid'] = $itemid;
+            $itemids = is_array($itemid) ? $itemid : [$itemid];
+            list($itemidinorequalsql, $itemidconditions) = $DB->get_in_or_equal($itemids, SQL_PARAMS_NAMED);
+            $itemidsql = " AND f.itemid {$itemidinorequalsql}";
+            $conditions = array_merge($conditions, $itemidconditions);
         } else {
             $itemidsql = '';
         }
@@ -1832,6 +1834,15 @@ class file_storage {
     }
 
     /**
+     * Returns true if filesystem is configured to support xsendfile.
+     *
+     * @return bool
+     */
+    public function supports_xsendfile() {
+        return $this->filesystem->supports_xsendfile();
+    }
+
+    /**
      * Content exists
      *
      * @param string $contenthash
@@ -2197,35 +2208,19 @@ class file_storage {
         $rs->close();
         mtrace('done.');
 
-        // remove orphaned preview files (that is files in the core preview filearea without
-        // the existing original file)
-        mtrace('Deleting orphaned preview files... ', '');
+        // Remove orphaned files:
+        // * preview files in the core preview filearea without the existing original file.
+        // * document converted files in core documentconversion filearea without the existing original file.
+        mtrace('Deleting orphaned preview, and document conversion files... ', '');
         cron_trace_time_and_memory();
         $sql = "SELECT p.*
                   FROM {files} p
              LEFT JOIN {files} o ON (p.filename = o.contenthash)
-                 WHERE p.contextid = ? AND p.component = 'core' AND p.filearea = 'preview' AND p.itemid = 0
-                       AND o.id IS NULL";
-        $syscontext = context_system::instance();
-        $rs = $DB->get_recordset_sql($sql, array($syscontext->id));
-        foreach ($rs as $orphan) {
-            $file = $this->get_file_instance($orphan);
-            if (!$file->is_directory()) {
-                $file->delete();
-            }
-        }
-        $rs->close();
-        mtrace('done.');
-
-        // Remove orphaned converted files (that is files in the core documentconversion filearea without
-        // the existing original file).
-        mtrace('Deleting orphaned document conversion files... ', '');
-        cron_trace_time_and_memory();
-        $sql = "SELECT p.*
-                  FROM {files} p
-             LEFT JOIN {files} o ON (p.filename = o.contenthash)
-                 WHERE p.contextid = ? AND p.component = 'core' AND p.filearea = 'documentconversion' AND p.itemid = 0
-                       AND o.id IS NULL";
+                 WHERE p.contextid = ?
+                   AND p.component = 'core'
+                   AND (p.filearea = 'preview' OR p.filearea = 'documentconversion')
+                   AND p.itemid = 0
+                   AND o.id IS NULL";
         $syscontext = context_system::instance();
         $rs = $DB->get_recordset_sql($sql, array($syscontext->id));
         foreach ($rs as $orphan) {
@@ -2239,7 +2234,8 @@ class file_storage {
 
         // remove trash pool files once a day
         // if you want to disable purging of trash put $CFG->fileslastcleanup=time(); into config.php
-        if (empty($CFG->fileslastcleanup) or $CFG->fileslastcleanup < time() - 60*60*24) {
+        $filescleanupperiod = empty($CFG->filescleanupperiod) ? 86400 : $CFG->filescleanupperiod;
+        if (empty($CFG->fileslastcleanup) || ($CFG->fileslastcleanup < time() - $filescleanupperiod)) {
             require_once($CFG->libdir.'/filelib.php');
             // Delete files that are associated with a context that no longer exists.
             mtrace('Cleaning up files from deleted contexts... ', '');

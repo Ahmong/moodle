@@ -2321,7 +2321,7 @@ class core_dml_testcase extends database_driver_testcase {
         $record->id = '1';
         $record->course = '1';
         $record->oneint = null;
-        $record->onenum = '1.00';
+        $record->onenum = 1.0;
         $record->onechar = 'a';
         $record->onetext = 'aaa';
 
@@ -5712,7 +5712,9 @@ class moodle_database_for_testing extends moodle_database {
     public function get_last_error() {}
     public function get_tables($usecache=true) {}
     public function get_indexes($table) {}
-    public function get_columns($table, $usecache=true) {}
+    protected function fetch_columns(string $table): array {
+        return [];
+    }
     protected function normalise_value($column, $value) {}
     public function set_debug($state) {}
     public function get_debug() {}

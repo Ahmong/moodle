@@ -330,6 +330,8 @@ class database_manager {
             throw new ddl_exception('ddlunknownerror', null, 'table drop sql not generated');
         }
         $this->execute_sql_arr($sqlarr, array($xmldb_table->getName()));
+
+        $this->generator->cleanup_after_drop($xmldb_table);
     }
 
     /**
@@ -899,6 +901,27 @@ class database_manager {
     }
 
     /**
+     * Get the list of install.xml files.
+     *
+     * @return array
+     */
+    public function get_install_xml_files(): array {
+        global $CFG;
+        require_once($CFG->libdir.'/adminlib.php');
+
+        $files = [];
+        $dbdirs = get_db_directories();
+        foreach ($dbdirs as $dbdir) {
+            $filename = "{$dbdir}/install.xml";
+            if (file_exists($filename)) {
+                $files[] = $filename;
+            }
+        }
+
+        return $files;
+    }
+
+    /**
      * Reads the install.xml files for Moodle core and modules and returns an array of
      * xmldb_structure object with xmldb_table from these files.
      * @return xmldb_structure schema from install.xml files
@@ -909,10 +932,10 @@ class database_manager {
 
         $schema = new xmldb_structure('export');
         $schema->setVersion($CFG->version);
-        $dbdirs = get_db_directories();
-        foreach ($dbdirs as $dbdir) {
-            $xmldb_file = new xmldb_file($dbdir.'/install.xml');
-            if (!$xmldb_file->fileExists() or !$xmldb_file->loadXMLStructure()) {
+
+        foreach ($this->get_install_xml_files() as $filename) {
+            $xmldb_file = new xmldb_file($filename);
+            if (!$xmldb_file->loadXMLStructure()) {
                 continue;
             }
             $structure = $xmldb_file->getStructure();

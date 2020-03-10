@@ -241,7 +241,7 @@ if (!core_tables_exist()) {
 
     // check plugin dependencies
     $failed = array();
-    if (!core_plugin_manager::instance()->all_plugins_ok($version, $failed)) {
+    if (!core_plugin_manager::instance()->all_plugins_ok($version, $failed, $CFG->branch)) {
         $PAGE->navbar->add(get_string('pluginscheck', 'admin'));
         $PAGE->set_title($strinstallation);
         $PAGE->set_heading($strinstallation . ' - Moodle ' . $CFG->target_release);
@@ -508,7 +508,7 @@ if (!$cache and $version > $CFG->version) {  // upgrade
     } else {
         // Always verify plugin dependencies!
         $failed = array();
-        if (!core_plugin_manager::instance()->all_plugins_ok($version, $failed)) {
+        if (!core_plugin_manager::instance()->all_plugins_ok($version, $failed, $CFG->branch)) {
             echo $output->unsatisfied_dependencies_page($version, $failed, $PAGE->url);
             die();
         }
@@ -682,7 +682,7 @@ if (!$cache and moodle_needs_upgrading()) {
 
         // Make sure plugin dependencies are always checked.
         $failed = array();
-        if (!$pluginman->all_plugins_ok($version, $failed)) {
+        if (!$pluginman->all_plugins_ok($version, $failed, $CFG->branch)) {
             $output = $PAGE->get_renderer('core', 'admin');
             echo $output->unsatisfied_dependencies_page($version, $failed, $PAGE->url);
             die();
@@ -823,9 +823,11 @@ if (isset($SESSION->pluginuninstallreturn)) {
 // Print default admin page with notifications.
 $errorsdisplayed = defined('WARN_DISPLAY_ERRORS_ENABLED');
 
-// We make the assumption that at least one schedule task should run once per day.
-$lastcron = $DB->get_field_sql('SELECT MAX(lastruntime) FROM {task_scheduled}');
+$lastcron = get_config('tool_task', 'lastcronstart');
 $cronoverdue = ($lastcron < time() - 3600 * 24);
+$lastcroninterval = get_config('tool_task', 'lastcroninterval');
+$expectedfrequency = $CFG->expectedcronfrequency ?? 200;
+$croninfrequent = !$cronoverdue && ($lastcroninterval > $expectedfrequency || $lastcron < time() - $expectedfrequency);
 $dbproblems = $DB->diagnose();
 $maintenancemode = !empty($CFG->maintenance_enabled);
 
@@ -886,4 +888,4 @@ $output = $PAGE->get_renderer('core', 'admin');
 echo $output->admin_notifications_page($maturity, $insecuredataroot, $errorsdisplayed, $cronoverdue, $dbproblems,
                                        $maintenancemode, $availableupdates, $availableupdatesfetch, $buggyiconvnomb,
                                        $registered, $cachewarnings, $eventshandlers, $themedesignermode, $devlibdir,
-                                       $mobileconfigured, $overridetossl, $invalidforgottenpasswordurl);
+                                       $mobileconfigured, $overridetossl, $invalidforgottenpasswordurl, $croninfrequent);

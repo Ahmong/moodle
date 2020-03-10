@@ -132,17 +132,26 @@ function uninstall_plugin($type, $name) {
     $subplugintypes = core_component::get_plugin_types_with_subplugins();
     if (isset($subplugintypes[$type])) {
         $base = core_component::get_plugin_directory($type, $name);
-        if (file_exists("$base/db/subplugins.php")) {
-            $subplugins = array();
-            include("$base/db/subplugins.php");
-            foreach ($subplugins as $subplugintype=>$dir) {
+
+        $subpluginsfile = "{$base}/db/subplugins.json";
+        if (file_exists($subpluginsfile)) {
+            $subplugins = (array) json_decode(file_get_contents($subpluginsfile))->plugintypes;
+        } else if (file_exists("{$base}/db/subplugins.php")) {
+            debugging('Use of subplugins.php has been deprecated. ' .
+                    'Please update your plugin to provide a subplugins.json file instead.',
+                    DEBUG_DEVELOPER);
+            $subplugins = [];
+            include("{$base}/db/subplugins.php");
+        }
+
+        if (!empty($subplugins)) {
+            foreach (array_keys($subplugins) as $subplugintype) {
                 $instances = core_component::get_plugin_list($subplugintype);
                 foreach ($instances as $subpluginname => $notusedpluginpath) {
                     uninstall_plugin($subplugintype, $subpluginname);
                 }
             }
         }
-
     }
 
     $component = $type . '_' . $name;  // eg. 'qtype_multichoice' or 'workshopgrading_accumulative' or 'mod_forum'
@@ -1317,6 +1326,84 @@ class admin_externalpage implements part_of_admin_tree {
     }
 }
 
+/**
+ * Used to store details of the dependency between two settings elements.
+ *
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright 2017 Davo Smith, Synergy Learning
+ */
+class admin_settingdependency {
+    /** @var string the name of the setting to be shown/hidden */
+    public $settingname;
+    /** @var string the setting this is dependent on */
+    public $dependenton;
+    /** @var string the condition to show/hide the element */
+    public $condition;
+    /** @var string the value to compare against */
+    public $value;
+
+    /** @var string[] list of valid conditions */
+    private static $validconditions = ['checked', 'notchecked', 'noitemselected', 'eq', 'neq', 'in'];
+
+    /**
+     * admin_settingdependency constructor.
+     * @param string $settingname
+     * @param string $dependenton
+     * @param string $condition
+     * @param string $value
+     * @throws \coding_exception
+     */
+    public function __construct($settingname, $dependenton, $condition, $value) {
+        $this->settingname = $this->parse_name($settingname);
+        $this->dependenton = $this->parse_name($dependenton);
+        $this->condition = $condition;
+        $this->value = $value;
+
+        if (!in_array($this->condition, self::$validconditions)) {
+            throw new coding_exception("Invalid condition '$condition'");
+        }
+    }
+
+    /**
+     * Convert the setting name into the form field name.
+     * @param string $name
+     * @return string
+     */
+    private function parse_name($name) {
+        $bits = explode('/', $name);
+        $name = array_pop($bits);
+        $plugin = '';
+        if ($bits) {
+            $plugin = array_pop($bits);
+            if ($plugin === 'moodle') {
+                $plugin = '';
+            }
+        }
+        return 's_'.$plugin.'_'.$name;
+    }
+
+    /**
+     * Gather together all the dependencies in a format suitable for initialising javascript
+     * @param admin_settingdependency[] $dependencies
+     * @return array
+     */
+    public static function prepare_for_javascript($dependencies) {
+        $result = [];
+        foreach ($dependencies as $d) {
+            if (!isset($result[$d->dependenton])) {
+                $result[$d->dependenton] = [];
+            }
+            if (!isset($result[$d->dependenton][$d->condition])) {
+                $result[$d->dependenton][$d->condition] = [];
+            }
+            if (!isset($result[$d->dependenton][$d->condition][$d->value])) {
+                $result[$d->dependenton][$d->condition][$d->value] = [];
+            }
+            $result[$d->dependenton][$d->condition][$d->value][] = $d->settingname;
+        }
+        return $result;
+    }
+}
 
 /**
  * Used to group a number of admin_setting objects into a page and add them to the admin tree.
@@ -1333,6 +1420,9 @@ class admin_settingpage implements part_of_admin_tree {
 
     /** @var mixed An array of admin_setting objects that are part of this setting page. */
     public $settings;
+
+    /** @var admin_settingdependency[] list of settings to hide when certain conditions are met */
+    protected $dependencies = [];
 
     /** @var string The role capability/permission a user must have to access this external page. */
     public $req_capability;
@@ -1464,6 +1554,29 @@ class admin_settingpage implements part_of_admin_tree {
     }
 
     /**
+     * Hide the named setting if the specified condition is matched.
+     *
+     * @param string $settingname
+     * @param string $dependenton
+     * @param string $condition
+     * @param string $value
+     */
+    public function hide_if($settingname, $dependenton, $condition = 'notchecked', $value = '1') {
+        $this->dependencies[] = new admin_settingdependency($settingname, $dependenton, $condition, $value);
+
+        // Reformat the dependency name to the plugin | name format used in the display.
+        $dependenton = str_replace('/', ' | ', $dependenton);
+
+        // Let the setting know, so it can be displayed underneath.
+        $findname = str_replace('/', '', $settingname);
+        foreach ($this->settings as $name => $setting) {
+            if ($name === $findname) {
+                $setting->add_dependent_on($dependenton);
+            }
+        }
+    }
+
+    /**
      * see admin_externalpage
      *
      * @return bool Returns true for yes false for no
@@ -1521,6 +1634,25 @@ class admin_settingpage implements part_of_admin_tree {
         }
         return false;
     }
+
+    /**
+     * Should any of the settings on this page be shown / hidden based on conditions?
+     * @return bool
+     */
+    public function has_dependencies() {
+        return (bool)$this->dependencies;
+    }
+
+    /**
+     * Format the setting show/hide conditions ready to initialise the page javascript
+     * @return array
+     */
+    public function get_dependencies_for_javascript() {
+        if (!$this->has_dependencies()) {
+            return [];
+        }
+        return admin_settingdependency::prepare_for_javascript($this->dependencies);
+    }
 }
 
 
@@ -1551,6 +1683,8 @@ abstract class admin_setting {
     private $flags = array();
     /** @var bool Whether this field must be forced LTR. */
     private $forceltr = null;
+    /** @var array list of other settings that may cause this setting to be hidden */
+    private $dependenton = [];
 
     /**
      * Constructor
@@ -1612,6 +1746,16 @@ abstract class admin_setting {
      */
     public function set_locked_flag_options($enabled, $default) {
         $this->set_flag_options($enabled, $default, 'locked', new lang_string('locked', 'core_admin'));
+    }
+
+    /**
+     * Set the required options flag on this admin setting.
+     *
+     * @param bool $enabled - One of self::OPTION_ENABLED or self::OPTION_DISABLED.
+     * @param bool $default - The default for the flag.
+     */
+    public function set_required_flag_options($enabled, $default) {
+        $this->set_flag_options($enabled, $default, 'required', new lang_string('required', 'core_admin'));
     }
 
     /**
@@ -1920,11 +2064,27 @@ abstract class admin_setting {
     public function set_force_ltr($value) {
         $this->forceltr = $value;
     }
+
+    /**
+     * Add a setting to the list of those that could cause this one to be hidden
+     * @param string $dependenton
+     */
+    public function add_dependent_on($dependenton) {
+        $this->dependenton[] = $dependenton;
+    }
+
+    /**
+     * Get a list of the settings that could cause this one to be hidden.
+     * @return array
+     */
+    public function get_dependent_on() {
+        return $this->dependenton;
+    }
 }
 
 /**
  * An additional option that can be applied to an admin setting.
- * The currently supported options are 'ADVANCED' and 'LOCKED'.
+ * The currently supported options are 'ADVANCED', 'LOCKED' and 'REQUIRED'.
  *
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -2433,6 +2593,19 @@ class admin_setting_confightmleditor extends admin_setting_configtextarea {
         $editor->use_editor($this->get_id(), array('noclean'=>true));
         return parent::output_html($data, $query);
     }
+
+    /**
+     * Checks if data has empty html.
+     *
+     * @param string $data
+     * @return string Empty when no errors.
+     */
+    public function write_setting($data) {
+        if (trim(html_to_text($data)) === '') {
+            $data = '';
+        }
+        return parent::write_setting($data);
+    }
 }
 
 
@@ -2478,18 +2651,51 @@ class admin_setting_configpasswordunmask extends admin_setting_configtext {
      * @return  string              Rendered HTML
      */
     public function output_html($data, $query='') {
-        global $OUTPUT;
+        global $OUTPUT, $CFG;
+        $forced = false;
+        if (empty($this->plugin)) {
+            if (array_key_exists($this->name, $CFG->config_php_settings)) {
+                $forced = true;
+            }
+        } else {
+            if (array_key_exists($this->plugin, $CFG->forced_plugin_settings)
+                and array_key_exists($this->name, $CFG->forced_plugin_settings[$this->plugin])) {
+                $forced = true;
+            }
+        }
         $context = (object) [
             'id' => $this->get_id(),
             'name' => $this->get_full_name(),
             'size' => $this->size,
-            'value' => $data,
+            'value' => $forced ? null : $data,
             'forceltr' => $this->get_force_ltr(),
+            'forced' => $forced
         ];
         $element = $OUTPUT->render_from_template('core_admin/setting_configpasswordunmask', $context);
         return format_admin_setting($this, $this->visiblename, $element, $this->description, true, '', null, $query);
     }
+}
 
+/**
+ * Password field, allows unmasking of password, with an advanced checkbox that controls an additional $name.'_adv' setting.
+ *
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright 2018 Paul Holden (pholden@greenhead.ac.uk)
+ */
+class admin_setting_configpasswordunmask_with_advanced extends admin_setting_configpasswordunmask {
+
+    /**
+     * Constructor
+     *
+     * @param string $name unique ascii name, either 'mysetting' for settings that in config, or 'myplugin/mysetting' for ones in config_plugins.
+     * @param string $visiblename localised
+     * @param string $description long localised info
+     * @param array $defaultsetting ('value'=>string, 'adv'=>bool)
+     */
+    public function __construct($name, $visiblename, $description, $defaultsetting) {
+        parent::__construct($name, $visiblename, $description, $defaultsetting['value']);
+        $this->set_advanced_flag_options(admin_setting_flag::ENABLED, !empty($defaultsetting['adv']));
+    }
 }
 
 /**
@@ -2573,7 +2779,7 @@ class admin_setting_configfile extends admin_setting_configtext {
         ];
 
         if ($context->readonly) {
-            $this->visiblename .= '<div class="form-overridden">'.get_string('execpathnotallowed', 'admin').'</div>';
+            $this->visiblename .= '<div class="alert alert-info">'.get_string('execpathnotallowed', 'admin').'</div>';
         }
 
         $element = $OUTPUT->render_from_template('core_admin/setting_configfile', $context);
@@ -2634,7 +2840,7 @@ class admin_setting_configexecutable extends admin_setting_configfile {
         ];
 
         if (!empty($CFG->preventexecpath)) {
-            $this->visiblename .= '<div class="form-overridden">'.get_string('execpathnotallowed', 'admin').'</div>';
+            $this->visiblename .= '<div class="alert alert-info">'.get_string('execpathnotallowed', 'admin').'</div>';
         }
 
         $element = $OUTPUT->render_from_template('core_admin/setting_configexecutable', $context);
@@ -2674,7 +2880,7 @@ class admin_setting_configdirectory extends admin_setting_configfile {
         ];
 
         if (!empty($CFG->preventexecpath)) {
-            $this->visiblename .= '<div class="form-overridden">'.get_string('execpathnotallowed', 'admin').'</div>';
+            $this->visiblename .= '<div class="alert alert-info">'.get_string('execpathnotallowed', 'admin').'</div>';
         }
 
         $element = $OUTPUT->render_from_template('core_admin/setting_configdirectory', $context);
@@ -6177,7 +6383,10 @@ class admin_page_managemessageoutputs extends admin_externalpage {
      */
     public function __construct() {
         global $CFG;
-        parent::__construct('managemessageoutputs', get_string('managemessageoutputs', 'message'), new moodle_url('/admin/message.php'));
+        parent::__construct('managemessageoutputs',
+            get_string('defaultmessageoutputs', 'message'),
+            new moodle_url('/admin/message.php')
+        );
     }
 
     /**
@@ -6223,14 +6432,24 @@ class admin_page_managemessageoutputs extends admin_externalpage {
 /**
  * Default message outputs configuration
  *
+ * @deprecated since Moodle 3.7 MDL-64495. Please use admin_page_managemessageoutputs instead.
+ * @todo       MDL-64866 This will be deleted in Moodle 4.1.
+ *
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class admin_page_defaultmessageoutputs extends admin_page_managemessageoutputs {
     /**
      * Calls parent::__construct with specific arguments
+     *
+     * @deprecated since Moodle 3.7 MDL-64495. Please use admin_page_managemessageoutputs instead.
+     * @todo       MDL-64866 This will be deleted in Moodle 4.1.
      */
     public function __construct() {
         global $CFG;
+
+        debugging('admin_page_defaultmessageoutputs class is deprecated. Please use admin_page_managemessageoutputs instead.',
+            DEBUG_DEVELOPER);
+
         admin_externalpage::__construct('defaultmessageoutputs', get_string('defaultmessageoutputs', 'message'), new moodle_url('/message/defaultoutputs.php'));
     }
 }
@@ -7261,6 +7480,129 @@ class admin_setting_manageformats extends admin_setting {
 }
 
 /**
+ * Custom fields manager. Allows to enable/disable custom fields and jump to settings.
+ *
+ * @package    core
+ * @copyright  2018 Toni Barbera
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class admin_setting_managecustomfields extends admin_setting {
+
+    /**
+     * Calls parent::__construct with specific arguments
+     */
+    public function __construct() {
+        $this->nosave = true;
+        parent::__construct('customfieldsui', new lang_string('managecustomfields', 'core_admin'), '', '');
+    }
+
+    /**
+     * Always returns true
+     *
+     * @return true
+     */
+    public function get_setting() {
+        return true;
+    }
+
+    /**
+     * Always returns true
+     *
+     * @return true
+     */
+    public function get_defaultsetting() {
+        return true;
+    }
+
+    /**
+     * Always returns '' and doesn't write anything
+     *
+     * @param mixed $data string or array, must not be NULL
+     * @return string Always returns ''
+     */
+    public function write_setting($data) {
+        // Do not write any setting.
+        return '';
+    }
+
+    /**
+     * Search to find if Query is related to format plugin
+     *
+     * @param string $query The string to search for
+     * @return bool true for related false for not
+     */
+    public function is_related($query) {
+        if (parent::is_related($query)) {
+            return true;
+        }
+        $formats = core_plugin_manager::instance()->get_plugins_of_type('customfield');
+        foreach ($formats as $format) {
+            if (strpos($format->component, $query) !== false ||
+                    strpos(core_text::strtolower($format->displayname), $query) !== false) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Return XHTML to display control
+     *
+     * @param mixed $data Unused
+     * @param string $query
+     * @return string highlight
+     */
+    public function output_html($data, $query='') {
+        global $CFG, $OUTPUT;
+        $return = '';
+        $return = $OUTPUT->heading(new lang_string('customfields', 'core_customfield'), 3, 'main');
+        $return .= $OUTPUT->box_start('generalbox customfieldsui');
+
+        $fields = core_plugin_manager::instance()->get_plugins_of_type('customfield');
+
+        $txt = get_strings(array('settings', 'name', 'enable', 'disable', 'up', 'down'));
+        $txt->uninstall = get_string('uninstallplugin', 'core_admin');
+        $txt->updown = "$txt->up/$txt->down";
+
+        $table = new html_table();
+        $table->head  = array($txt->name, $txt->enable, $txt->uninstall, $txt->settings);
+        $table->align = array('left', 'center', 'center', 'center');
+        $table->attributes['class'] = 'managecustomfieldtable generaltable admintable';
+        $table->data  = array();
+
+        $spacer = $OUTPUT->pix_icon('spacer', '', 'moodle', array('class' => 'iconsmall'));
+        foreach ($fields as $field) {
+            $url = new moodle_url('/admin/customfields.php',
+                    array('sesskey' => sesskey(), 'field' => $field->name));
+
+            if ($field->is_enabled()) {
+                $strfieldname = $field->displayname;
+                $hideshow = html_writer::link($url->out(false, array('action' => 'disable')),
+                        $OUTPUT->pix_icon('t/hide', $txt->disable, 'moodle', array('class' => 'iconsmall')));
+            } else {
+                $strfieldname = $field->displayname;
+                $class = 'dimmed_text';
+                $hideshow = html_writer::link($url->out(false, array('action' => 'enable')),
+                    $OUTPUT->pix_icon('t/show', $txt->enable, 'moodle', array('class' => 'iconsmall')));
+            }
+            $settings = '';
+            if ($field->get_settings_url()) {
+                $settings = html_writer::link($field->get_settings_url(), $txt->settings);
+            }
+            $uninstall = '';
+            if ($uninstallurl = core_plugin_manager::instance()->get_uninstall_url('customfield_'.$field->name, 'manage')) {
+                $uninstall = html_writer::link($uninstallurl, $txt->uninstall);
+            }
+            $row = new html_table_row(array($strfieldname, $hideshow, $uninstall, $settings));
+            $table->data[] = $row;
+        }
+        $return .= html_writer::table($table);
+        $return .= $OUTPUT->box_end();
+        return highlight($query, $return);
+    }
+}
+
+/**
  * Data formats manager. Allow reorder and to enable/disable data formats and jump to settings
  *
  * @copyright  2016 Brendan Heywood (brendan@catalyst-au.net)
@@ -7938,7 +8280,7 @@ function admin_externalpage_setup($section, $extrabutton = '', array $extraurlpa
     $PAGE->set_context(null); // hack - set context to something, by default to system context
 
     $site = get_site();
-    require_login();
+    require_login(null, false);
 
     if (!empty($options['pagelayout'])) {
         // A specific page layout has been requested.
@@ -8084,10 +8426,12 @@ function admin_get_root($reload=false, $requirefulltree=true) {
  * @return array $settingsoutput The names and values of the changed settings
  */
 function admin_apply_default_settings($node=null, $unconditional=true, $admindefaultsettings=array(), $settingsoutput=array()) {
+    $counter = 0;
 
     if (is_null($node)) {
         core_plugin_manager::reset_caches();
         $node = admin_get_root(true, true);
+        $counter = count($settingsoutput);
     }
 
     if ($node instanceof admin_category) {
@@ -8100,7 +8444,7 @@ function admin_apply_default_settings($node=null, $unconditional=true, $admindef
 
     } else if ($node instanceof admin_settingpage) {
         foreach ($node->settings as $setting) {
-            if (!$unconditional and !is_null($setting->get_setting())) {
+            if (!$unconditional && !is_null($setting->get_setting())) {
                 // Do not override existing defaults.
                 continue;
             }
@@ -8126,7 +8470,7 @@ function admin_apply_default_settings($node=null, $unconditional=true, $admindef
     }
 
     // Call this function recursively until all settings are processed.
-    if (($node instanceof admin_root) && (!empty($admindefaultsettings))) {
+    if (($node instanceof admin_root) && ($counter != count($settingsoutput))) {
         $settingsoutput = admin_apply_default_settings(null, $unconditional, $admindefaultsettings, $settingsoutput);
     }
     // Just in case somebody modifies the list of active plugins directly.
@@ -8291,7 +8635,6 @@ function admin_search_settings_html($query) {
                     $data = $adminroot->errors[$fullname]->data;
                 } else {
                     $data = $setting->get_setting();
-                    $data = $setting->get_setting();
                 // do not use defaults if settings not available - upgradesettings handles the defaults!
                 }
                 $sectionsettings[] = $setting->output_html($data, $query);
@@ -8425,6 +8768,10 @@ function format_admin_setting($setting, $title='', $form='', $description='', $l
     $adminroot = admin_get_root();
     if (array_key_exists($context->fullname, $adminroot->errors)) {
         $context->error = $adminroot->errors[$context->fullname]->error;
+    }
+
+    if ($dependenton = $setting->get_dependent_on()) {
+        $context->dependenton = get_string('settingdependenton', 'admin', implode(', ', $dependenton));
     }
 
     $context->id = 'admin-' . $setting->name;
@@ -9223,7 +9570,7 @@ class admin_setting_webservicesoverview extends admin_setting {
         $url = new moodle_url("/admin/search.php?query=enablewebservices");
         $row[0] = "1. " . html_writer::tag('a', get_string('enablews', 'webservice'),
                         array('href' => $url));
-        $status = html_writer::tag('span', get_string('no'), array('class' => 'statuscritical'));
+        $status = html_writer::tag('span', get_string('no'), array('class' => 'badge badge-danger'));
         if ($CFG->enablewebservices) {
             $status = get_string('yes');
         }
@@ -9236,7 +9583,7 @@ class admin_setting_webservicesoverview extends admin_setting {
         $url = new moodle_url("/admin/settings.php?section=webserviceprotocols");
         $row[0] = "2. " . html_writer::tag('a', get_string('enableprotocols', 'webservice'),
                         array('href' => $url));
-        $status = html_writer::tag('span', get_string('none'), array('class' => 'statuscritical'));
+        $status = html_writer::tag('span', get_string('none'), array('class' => 'badge badge-danger'));
         //retrieve activated protocol
         $active_protocols = empty($CFG->webserviceprotocols) ?
                 array() : explode(',', $CFG->webserviceprotocols);
@@ -9347,7 +9694,7 @@ class admin_setting_webservicesoverview extends admin_setting {
         $url = new moodle_url("/admin/search.php?query=enablewebservices");
         $row[0] = "1. " . html_writer::tag('a', get_string('enablews', 'webservice'),
                         array('href' => $url));
-        $status = html_writer::tag('span', get_string('no'), array('class' => 'statuscritical'));
+        $status = html_writer::tag('span', get_string('no'), array('class' => 'badge badge-danger'));
         if ($CFG->enablewebservices) {
             $status = get_string('yes');
         }
@@ -9360,7 +9707,7 @@ class admin_setting_webservicesoverview extends admin_setting {
         $url = new moodle_url("/admin/settings.php?section=webserviceprotocols");
         $row[0] = "2. " . html_writer::tag('a', get_string('enableprotocols', 'webservice'),
                         array('href' => $url));
-        $status = html_writer::tag('span', get_string('none'), array('class' => 'statuscritical'));
+        $status = html_writer::tag('span', get_string('none'), array('class' => 'badge badge-danger'));
         //retrieve activated protocol
         $active_protocols = empty($CFG->webserviceprotocols) ?
                 array() : explode(',', $CFG->webserviceprotocols);
@@ -10445,10 +10792,10 @@ class admin_setting_searchsetupinfo extends admin_setting {
         $row[0] = '1. ' . html_writer::tag('a', get_string('selectsearchengine', 'admin'),
                         array('href' => $url));
 
-        $status = html_writer::tag('span', get_string('no'), array('class' => 'statuscritical'));
+        $status = html_writer::tag('span', get_string('no'), array('class' => 'badge badge-danger'));
         if (!empty($CFG->searchengine)) {
             $status = html_writer::tag('span', get_string('pluginname', 'search_' . $CFG->searchengine),
-                array('class' => 'statusok'));
+                array('class' => 'badge badge-success'));
 
         }
         $row[1] = $status;
@@ -10460,9 +10807,9 @@ class admin_setting_searchsetupinfo extends admin_setting {
         $row[0] = '2. ' . html_writer::tag('a', get_string('enablesearchareas', 'admin'),
                         array('href' => $url));
 
-        $status = html_writer::tag('span', get_string('no'), array('class' => 'statuscritical'));
+        $status = html_writer::tag('span', get_string('no'), array('class' => 'badge badge-danger'));
         if ($anyenabled) {
-            $status = html_writer::tag('span', get_string('yes'), array('class' => 'statusok'));
+            $status = html_writer::tag('span', get_string('yes'), array('class' => 'badge badge-success'));
 
         }
         $row[1] = $status;
@@ -10472,7 +10819,7 @@ class admin_setting_searchsetupinfo extends admin_setting {
         $row = array();
         if (empty($CFG->searchengine)) {
             $row[0] = '3. ' . get_string('setupsearchengine', 'admin');
-            $row[1] = html_writer::tag('span', get_string('no'), array('class' => 'statuscritical'));
+            $row[1] = html_writer::tag('span', get_string('no'), array('class' => 'badge badge-danger'));
         } else {
             $url = new moodle_url('/admin/settings.php?section=search' . $CFG->searchengine);
             $row[0] = '3. ' . html_writer::tag('a', get_string('setupsearchengine', 'admin'),
@@ -10485,9 +10832,9 @@ class admin_setting_searchsetupinfo extends admin_setting {
                 $serverstatus = $e->getMessage();
             }
             if ($serverstatus === true) {
-                $status = html_writer::tag('span', get_string('yes'), array('class' => 'statusok'));
+                $status = html_writer::tag('span', get_string('yes'), array('class' => 'badge badge-success'));
             } else {
-                $status = html_writer::tag('span', $serverstatus, array('class' => 'statuscritical'));
+                $status = html_writer::tag('span', $serverstatus, array('class' => 'badge badge-danger'));
             }
             $row[1] = $status;
         }
@@ -10498,9 +10845,9 @@ class admin_setting_searchsetupinfo extends admin_setting {
         $url = new moodle_url('/admin/searchareas.php');
         $row[0] = '4. ' . html_writer::tag('a', get_string('indexdata', 'admin'), array('href' => $url));
         if ($anyindexed) {
-            $status = html_writer::tag('span', get_string('yes'), array('class' => 'statusok'));
+            $status = html_writer::tag('span', get_string('yes'), array('class' => 'badge badge-success'));
         } else {
-            $status = html_writer::tag('span', get_string('no'), array('class' => 'statuscritical'));
+            $status = html_writer::tag('span', get_string('no'), array('class' => 'badge badge-danger'));
         }
         $row[1] = $status;
         $table->data[] = $row;
@@ -10510,9 +10857,9 @@ class admin_setting_searchsetupinfo extends admin_setting {
         $url = new moodle_url("/admin/search.php?query=enableglobalsearch");
         $row[0] = '5. ' . html_writer::tag('a', get_string('enableglobalsearch', 'admin'),
                         array('href' => $url));
-        $status = html_writer::tag('span', get_string('no'), array('class' => 'statuscritical'));
+        $status = html_writer::tag('span', get_string('no'), array('class' => 'badge badge-danger'));
         if (\core_search\manager::is_global_search_enabled()) {
-            $status = html_writer::tag('span', get_string('yes'), array('class' => 'statusok'));
+            $status = html_writer::tag('span', get_string('yes'), array('class' => 'badge badge-success'));
         }
         $row[1] = $status;
         $table->data[] = $row;
@@ -10550,9 +10897,9 @@ class admin_setting_scsscode extends admin_setting_configtextarea {
         $scss = new core_scss();
         try {
             $scss->compile($data);
-        } catch (Leafo\ScssPhp\Exception\ParserException $e) {
+        } catch (ScssPhp\ScssPhp\Exception\ParserException $e) {
             return get_string('scssinvalid', 'admin', $e->getMessage());
-        } catch (Leafo\ScssPhp\Exception\CompilerException $e) {
+        } catch (ScssPhp\ScssPhp\Exception\CompilerException $e) {
             // Silently ignore this - it could be a scss variable defined from somewhere
             // else which we are not examining here.
             return true;
@@ -10764,6 +11111,98 @@ class admin_settings_sitepolicy_handler_select extends admin_setting_configselec
         foreach ($plugins as $pname => $unused) {
             $this->choices[$pname] = new lang_string('sitepolicyhandlerplugin', 'core_admin',
                 ['name' => new lang_string('pluginname', $pname), 'component' => $pname]);
+        }
+
+        return true;
+    }
+}
+
+/**
+ * Used to validate theme presets code and ensuring they compile well.
+ *
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright 2019 Bas Brands <bas@moodle.com>
+ */
+class admin_setting_configthemepreset extends admin_setting_configselect {
+
+    /** @var string The name of the theme to check for */
+    private $themename;
+
+    /**
+     * Constructor
+     * @param string $name unique ascii name, either 'mysetting' for settings that in config,
+     * or 'myplugin/mysetting' for ones in config_plugins.
+     * @param string $visiblename localised
+     * @param string $description long localised info
+     * @param string|int $defaultsetting
+     * @param array $choices array of $value=>$label for each selection
+     * @param string $themename name of theme to check presets for.
+     */
+    public function __construct($name, $visiblename, $description, $defaultsetting, $choices, $themename) {
+        $this->themename = $themename;
+        parent::__construct($name, $visiblename, $description, $defaultsetting, $choices);
+    }
+
+    /**
+     * Write settings if validated
+     *
+     * @param string $data
+     * @return string
+     */
+    public function write_setting($data) {
+        $validated = $this->validate($data);
+        if ($validated !== true) {
+            return $validated;
+        }
+        return ($this->config_write($this->name, $data) ? '' : get_string('errorsetting', 'admin'));
+    }
+
+    /**
+     * Validate the preset file to ensure its parsable.
+     *
+     * @param string $data The preset file chosen.
+     * @return mixed bool true for success or string:error on failure.
+     */
+    public function validate($data) {
+
+        if (in_array($data, ['default.scss', 'plain.scss'])) {
+            return true;
+        }
+
+        $fs = get_file_storage();
+        $theme = theme_config::load($this->themename);
+        $context = context_system::instance();
+
+        // If the preset has not changed there is no need to validate it.
+        if ($theme->settings->preset == $data) {
+            return true;
+        }
+
+        if ($presetfile = $fs->get_file($context->id, 'theme_' . $this->themename, 'preset', 0, '/', $data)) {
+            // This operation uses a lot of resources.
+            raise_memory_limit(MEMORY_EXTRA);
+            core_php_time_limit::raise(300);
+
+            // TODO: MDL-62757 When changing anything in this method please do not forget to check
+            // if the get_css_content_from_scss() method in class theme_config needs updating too.
+
+            $compiler = new core_scss();
+            $compiler->prepend_raw_scss($theme->get_pre_scss_code());
+            $compiler->append_raw_scss($presetfile->get_content());
+            if ($scssproperties = $theme->get_scss_property()) {
+                $compiler->setImportPaths($scssproperties[0]);
+            }
+            $compiler->append_raw_scss($theme->get_extra_scss_code());
+
+            try {
+                $compiler->to_css();
+            } catch (Exception $e) {
+                return get_string('invalidthemepreset', 'admin', $e->getMessage());
+            }
+
+            // Try to save memory.
+            $compiler = null;
+            unset($compiler);
         }
 
         return true;

@@ -313,5 +313,29 @@ function xmldb_tool_dataprivacy_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018112500, 'tool', 'dataprivacy');
     }
 
+    // Automatically generated Moodle v3.6.0 release upgrade line.
+    // Put any upgrade step following this.
+
+    // Automatically generated Moodle v3.7.0 release upgrade line.
+    // Put any upgrade step following this.
+
+    // Automatically generated Moodle v3.8.0 release upgrade line.
+    // Put any upgrade step following this.
+
+    if ($oldversion < 2019121700) {
+
+        // Define field systemapproved to be added to tool_dataprivacy_request.
+        $table = new xmldb_table('tool_dataprivacy_request');
+        $field = new xmldb_field('systemapproved', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0', 'dpocommentformat');
+
+        // Conditionally launch add field systemapproved.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Dataprivacy savepoint reached.
+        upgrade_plugin_savepoint(true, 2019121700, 'tool', 'dataprivacy');
+    }
+
     return true;
 }

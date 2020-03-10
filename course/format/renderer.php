@@ -117,10 +117,9 @@ abstract class format_section_renderer_base extends plugin_renderer_base {
                 $name = empty($value['name']) ? '' : $value['name'];
                 $attr = empty($value['attr']) ? array() : $value['attr'];
                 $class = empty($value['pixattr']['class']) ? '' : $value['pixattr']['class'];
-                $alt = empty($value['pixattr']['alt']) ? '' : $value['pixattr']['alt'];
                 $al = new action_menu_link_secondary(
                     new moodle_url($url),
-                    new pix_icon($icon, $alt, null, array('class' => "smallicon " . $class)),
+                    new pix_icon($icon, '', null, array('class' => "smallicon " . $class)),
                     $name,
                     $attr
                 );
@@ -255,39 +254,11 @@ abstract class format_section_renderer_base extends plugin_renderer_base {
     }
 
     /**
-     * Generate the edit controls of a section
-     *
-     * @param stdClass $course The course entry from DB
-     * @param stdClass $section The course_section entry from DB
-     * @param bool $onsectionpage true if being printed on a section page
-     * @return array of links with edit controls
-     * @deprecated since Moodle 3.0 MDL-48947 - please do not use this function any more.
-     * @see format_section_renderer_base::section_edit_control_items()
+     * @deprecated since Moodle 3.0 MDL-48947 - Use format_section_renderer_base::section_edit_control_items() instead
      */
-    protected function section_edit_controls($course, $section, $onsectionpage = false) {
-        global $PAGE;
-
-        if (!$PAGE->user_is_editing()) {
-            return array();
-        }
-
-        $controls = array();
-        $items = $this->section_edit_control_items($course, $section, $onsectionpage);
-
-        foreach ($items as $key => $item) {
-                $url = empty($item['url']) ? '' : $item['url'];
-                $icon = empty($item['icon']) ? '' : $item['icon'];
-                $name = empty($item['name']) ? '' : $item['name'];
-                $attr = empty($item['attr']) ? '' : $item['attr'];
-                $class = empty($item['pixattr']['class']) ? '' : $item['pixattr']['class'];
-                $alt = empty($item['pixattr']['alt']) ? '' : $item['pixattr']['alt'];
-                $controls[$key] = html_writer::link(
-                    new moodle_url($url), $this->output->pix_icon($icon, $alt),
-                    $attr);
-        }
-
-        debugging('section_edit_controls() is deprecated, please use section_edit_control_items() instead.', DEBUG_DEVELOPER);
-        return $controls;
+    protected function section_edit_controls() {
+        throw new coding_exception('section_edit_controls() can not be used anymore. Please use ' .
+            'section_edit_control_items() instead.');
     }
 
     /**
@@ -328,8 +299,8 @@ abstract class format_section_renderer_base extends plugin_renderer_base {
                 'url'   => new moodle_url('/course/editsection.php', array('id' => $section->id, 'sr' => $sectionreturn)),
                 'icon' => 'i/settings',
                 'name' => $streditsection,
-                'pixattr' => array('class' => '', 'alt' => $streditsection),
-                'attr' => array('class' => 'icon edit', 'title' => $streditsection));
+                'pixattr' => array('class' => ''),
+                'attr' => array('class' => 'icon edit'));
         }
 
         if ($section->section) {
@@ -343,8 +314,8 @@ abstract class format_section_renderer_base extends plugin_renderer_base {
                             'url' => $url,
                             'icon' => 'i/hide',
                             'name' => $strhidefromothers,
-                            'pixattr' => array('class' => '', 'alt' => $strhidefromothers),
-                            'attr' => array('class' => 'icon editing_showhide', 'title' => $strhidefromothers,
+                            'pixattr' => array('class' => ''),
+                            'attr' => array('class' => 'icon editing_showhide',
                                 'data-sectionreturn' => $sectionreturn, 'data-action' => 'hide'));
                     } else {
                         $strshowfromothers = get_string('showfromothers', 'format_'.$course->format);
@@ -353,8 +324,8 @@ abstract class format_section_renderer_base extends plugin_renderer_base {
                             'url' => $url,
                             'icon' => 'i/show',
                             'name' => $strshowfromothers,
-                            'pixattr' => array('class' => '', 'alt' => $strshowfromothers),
-                            'attr' => array('class' => 'icon editing_showhide', 'title' => $strshowfromothers,
+                            'pixattr' => array('class' => ''),
+                            'attr' => array('class' => 'icon editing_showhide',
                                 'data-sectionreturn' => $sectionreturn, 'data-action' => 'show'));
                     }
                 }
@@ -370,8 +341,8 @@ abstract class format_section_renderer_base extends plugin_renderer_base {
                                 'url' => $url,
                                 'icon' => 'i/up',
                                 'name' => $strmoveup,
-                                'pixattr' => array('class' => '', 'alt' => $strmoveup),
-                                'attr' => array('class' => 'icon moveup', 'title' => $strmoveup));
+                                'pixattr' => array('class' => ''),
+                                'attr' => array('class' => 'icon moveup'));
                         }
 
                         $url = clone($baseurl);
@@ -383,8 +354,8 @@ abstract class format_section_renderer_base extends plugin_renderer_base {
                                 'url' => $url,
                                 'icon' => 'i/down',
                                 'name' => $strmovedown,
-                                'pixattr' => array('class' => '', 'alt' => $strmovedown),
-                                'attr' => array('class' => 'icon movedown', 'title' => $strmovedown));
+                                'pixattr' => array('class' => ''),
+                                'attr' => array('class' => 'icon movedown'));
                         }
                     }
                 }
@@ -405,8 +376,8 @@ abstract class format_section_renderer_base extends plugin_renderer_base {
                     'url' => $url,
                     'icon' => 'i/delete',
                     'name' => $strdelete,
-                    'pixattr' => array('class' => '', 'alt' => $strdelete),
-                    'attr' => array('class' => 'icon editing_delete', 'title' => $strdelete));
+                    'pixattr' => array('class' => ''),
+                    'attr' => array('class' => 'icon editing_delete'));
             }
         }
 
@@ -489,11 +460,6 @@ abstract class format_section_renderer_base extends plugin_renderer_base {
         foreach ($modinfo->sections[$section->section] as $cmid) {
             $thismod = $modinfo->cms[$cmid];
 
-            if ($thismod->modname == 'label') {
-                // Labels are special (not interesting for students)!
-                continue;
-            }
-
             if ($thismod->uservisible) {
                 if (isset($sectionmods[$thismod->modname])) {
                     $sectionmods[$thismod->modname]['name'] = $thismod->modplural;
@@ -520,7 +486,7 @@ abstract class format_section_renderer_base extends plugin_renderer_base {
 
         // Output section activities summary:
         $o = '';
-        $o.= html_writer::start_tag('div', array('class' => 'section-summary-activities mdl-right'));
+        $o.= html_writer::start_tag('div', array('class' => 'section-summary-activities pr-2 mdl-right'));
         foreach ($sectionmods as $mod) {
             $o.= html_writer::start_tag('span', array('class' => 'activity-count'));
             $o.= $mod['name'].': '.$mod['count'];
@@ -534,7 +500,7 @@ abstract class format_section_renderer_base extends plugin_renderer_base {
             $a->complete = $complete;
             $a->total = $total;
 
-            $o.= html_writer::start_tag('div', array('class' => 'section-summary-activities mdl-right'));
+            $o.= html_writer::start_tag('div', array('class' => 'section-summary-activities pr-2 mdl-right'));
             $o.= html_writer::tag('span', get_string('progresstotal', 'completion', $a), array('class' => 'activity-count'));
             $o.= html_writer::end_tag('div');
         }
@@ -1009,7 +975,7 @@ abstract class format_section_renderer_base extends plugin_renderer_base {
             if ($sectionreturn !== null) {
                 $url->param('sectionreturn', $sectionreturn);
             }
-            $icon = $this->output->pix_icon('t/add', $straddsections);
+            $icon = $this->output->pix_icon('t/add', '');
             $newsections = $maxsections - $lastsection;
             echo html_writer::link($url, $icon . $straddsections,
                 array('class' => 'add-sections', 'data-add-sections' => $straddsections, 'new-sections' => $newsections));

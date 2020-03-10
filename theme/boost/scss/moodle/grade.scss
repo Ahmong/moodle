@@ -33,9 +33,11 @@
 
 .path-grade-report-grader {
     #region-main {
+        overflow-x: visible;
         min-width: 100%;
         width: auto;
         display: inline-flex;
+        flex-direction: column;
         & > .card {
             width: auto;
             overflow-x: initial;
@@ -68,8 +70,6 @@
         margin-bottom: 1em;
 
         .action {
-            @extend .btn;
-            @extend .btn-lg;
             display: inline-block;
             position: relative;
             vertical-align: top;
@@ -188,7 +188,6 @@
                     vertical-align: middle;
 
                     input {
-                        @extend .btn;
                         background-position: 0 0;
                         height: 30px;
                         margin-right: 5px;
@@ -199,7 +198,6 @@
 
         .addcriterion {
             margin-left: 5px;
-            @extend .btn;
             padding: 0;
 
             input {
@@ -233,6 +231,36 @@
                     margin-left: 5px;
                     margin-right: 12px;
                 }
+            }
+        }
+    }
+}
+.grade-display {
+    .description {
+        font-size: 1rem;
+    }
+}
+.criterion {
+    .description {
+        font-size: 1rem;
+    }
+
+    .criterion-toggle {
+        .expanded-icon {
+            display: block;
+        }
+
+        .collapsed-icon {
+            display: none;
+        }
+
+        &.collapsed {
+            .expanded-icon {
+                display: none;
+            }
+
+            .collapsed-icon {
+                display: block;
             }
         }
     }

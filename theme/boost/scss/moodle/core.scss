@@ -9,6 +9,9 @@ $bg-inverse-link-color: #fff !default;
     overflow-x: auto;
     overflow-y: visible;
     border: $card-border-width solid $card-border-color;
+    @if $enable-rounded {
+        @include border-radius($card-border-radius);
+    }
     padding: $card-spacer-x;
     background-color: $body-bg;
 }
@@ -21,6 +24,35 @@ $bg-inverse-link-color: #fff !default;
     height: 2em;
     display: block;
     margin-top: 4px;
+}
+
+$gototop-bottom-position: 50px !default;
+
+#goto-top-link {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .7s ease 0s, visibility .1s ease .8s;
+    display: block;
+    position: fixed; /* IE compatibility hack */
+    @supports (position: sticky) {
+        position: sticky;
+    }
+    @supports (-ms-ime-align:auto) {
+        position: fixed; /* Edge compatibility hack */
+    }
+    bottom: $gototop-bottom-position;
+    right: 0;
+    a {
+        position: absolute;
+        right: 0;
+        transform: translateY(-100%);
+    }
+}
+
+body.scrolled #goto-top-link {
+    opacity: 1;
+    visibility: visible;
+    transition: visibility 0s ease 0s, opacity .7s ease .1s;
 }
 
 .context-header-settings-menu .dropdown-toggle > .icon,
@@ -82,7 +114,7 @@ a.dimmed_text:visited,
 .usersuspended a:visited,
 .dimmed_category,
 .dimmed_category a {
-    @extend .text-muted;
+    color: $text-muted;
 }
 
 .unlist,
@@ -115,16 +147,16 @@ a.dimmed_text:visited,
 
 .red,
 .notifyproblem {
-    @extend .text-warning;
+    color: map-get($theme-colors, 'warning');
 }
 
 .green,
 .notifysuccess {
-    @extend .text-success;
+    color: map-get($theme-colors, 'success');
 }
 
 .highlight {
-    @extend .text-info;
+    color: map-get($theme-colors, 'info');
 }
 
 .fitem.advanced .text-info {
@@ -296,7 +328,9 @@ form.popupform div {
 }
 
 // Minimum height required for a menu in a table inside a scrollable div.
+// Position required for table sizing inside a flex container.
 .no-overflow > .generaltable {
+    position: relative;
     margin-bottom: 0;
     min-height: 10em;
 }
@@ -384,6 +418,7 @@ a.skip:active {
     width: auto;
     min-width: 80%;
     margin: 0 auto;
+    display: block;
 }
 
 .groupmanagementtable #removeselect_wrapper,
@@ -587,7 +622,7 @@ table.mod_index {
 * Completion progress report
 */
 .completion-expired {
-    @extend .text-warning;
+    color: map-get($theme-colors, 'warning');
 }
 
 .completion-expected {
@@ -684,7 +719,7 @@ span.flagged-tag,
 tr.flagged-tag,
 span.flagged-tag a,
 tr.flagged-tag a {
-    @extend .text-warning;
+    color: map-get($theme-colors, 'warning');
 }
 
 .tag-management-table td,
@@ -761,7 +796,7 @@ tr.flagged-tag a {
 }
 
 .tag_feed .media .muted a {
-    @extend .text-muted;
+    color: $text-muted;
 }
 
 .tag_cloud {
@@ -983,22 +1018,6 @@ tr.flagged-tag a {
     margin-left: 3px;
 }
 
-#page-enrol-users {
-    .enrol_user_buttons {
-        text-align: right;
-
-    }
-
-    #filterform {
-        @extend .card;
-        @extend .card-block;
-    }
-}
-
-#page-enrol-users .enrol-users-page-action input {
-    margin-left: 0;
-}
-
 .corelightbox {
     background-color: #ccc;
     position: absolute;
@@ -1150,12 +1169,10 @@ body#page-lib-editor-tinymce-plugins-moodlemedia-preview {
     display: block;
 }
 
-.moodle-dialogue-base .moodle-dialogue-wrap.moodle-dialogue-content {
-    @extend .modal-content;
-}
-
 .moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd {
-    @extend .modal-header;
+    display: flex;
+    padding: 1rem 1rem;
+    border-bottom: 1px solid #dee2e6;
 }
 
 .moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd.yui3-widget-hd {
@@ -1168,7 +1185,6 @@ body#page-lib-editor-tinymce-plugins-moodlemedia-preview {
 }
 
 .moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd h1 {
-    @extend .modal-title;
     font-size: 1.5rem;
 }
 
@@ -1177,12 +1193,24 @@ body#page-lib-editor-tinymce-plugins-moodlemedia-preview {
         left: 0;
         right: auto;
     */
-    padding: $spacer;
+    padding: 0;
+    position: relative;
+    margin-left: auto;
 }
 
 .moodle-dialogue-base .closebutton {
-    @extend .close;
+    padding: $modal-header-padding;
+    margin: (-$modal-header-padding-y) (-$modal-header-padding-x) (-$modal-header-padding-y) auto;
+    position: relative;
+    background-color: transparent;
+    border: 0;
+    background-image: none;
     box-shadow: none;
+    opacity: 0.7;
+    &:hover,
+    &:active {
+        opacity: 1;
+    }
     &::after {
         content: "×";
     }
@@ -1190,6 +1218,9 @@ body#page-lib-editor-tinymce-plugins-moodlemedia-preview {
 
 .moodle-dialogue-base .moodle-dialogue .moodle-dialogue-bd {
     padding: 0.5rem;
+    body {
+        background-color: $body-bg;
+    }
 }
 
 .moodle-dialogue-base .moodle-dialogue-fullscreen .moodle-dialogue-content {
@@ -1224,7 +1255,7 @@ body#page-lib-editor-tinymce-plugins-moodlemedia-preview {
 }
 
 .moodle-dialogue-exception .param-stacktrace .stacktrace-line {
-    @extend .text-warning;
+    color: map-get($theme-colors, 'warning');
     font-size: $font-size-sm;
 }
 
@@ -1232,10 +1263,6 @@ body#page-lib-editor-tinymce-plugins-moodlemedia-preview {
     color: #333;
     font-size: 90%;
     border-bottom: 1px solid #eee;
-}
-
-.moodle-dialogue-base .moodle-dialogue .moodle-dialogue-content .moodle-dialogue-ft {
-    @extend .modal-footer;
 }
 
 .moodle-dialogue-base .moodle-dialogue .moodle-dialogue-content .moodle-dialogue-ft:empty {
@@ -1462,11 +1489,6 @@ body#page-lib-editor-tinymce-plugins-moodlemedia-preview {
     padding-top: 1px;
 }
 
-.chooserdialogue-course-modchooser .modicon .icon {
-    width: 24px;
-    height: 24px;
-    font-size: 24px;
-}
 
 @include media-breakpoint-down(xs) {
     .jsenabled .choosercontainer #chooseform .alloptions {
@@ -1476,6 +1498,171 @@ body#page-lib-editor-tinymce-plugins-moodlemedia-preview {
     .jsenabled .choosercontainer #chooseform .instruction,
     .jsenabled .choosercontainer #chooseform .typesummary {
         position: static;
+    }
+}
+
+/**
+ * Module chooser dialogue (moodle-core-chooserdialogue)
+ *
+ * This CSS belong to the chooser dialogue which should work both with, and
+ * without javascript enabled
+ */
+.modchooser .modal-body {
+    padding: 0;
+    height: 590px;
+    overflow-y: auto;
+
+    .loading-icon {
+        opacity: 1;
+        .icon {
+            display: block;
+            font-size: 3em;
+            height: 1em;
+            width: 1em;
+            margin: 5em auto;
+        }
+    }
+}
+
+.modchoosercontainer.noscroll {
+    overflow-y: hidden;
+}
+
+.modchooser .searchcontainer .searchbar {
+
+    .searchinput {
+        font-size: inherit;
+        border: 1px solid #dee2e6;
+        border-top-left-radius: .3rem;
+        border-bottom-left-radius: .3rem;
+        border-right: none;
+    }
+
+    .searchbar-append {
+        align-items: center;
+        border: 1px solid #dee2e6;
+        border-left: none;
+        border-top-right-radius: .3rem;
+        border-bottom-right-radius: .3rem;
+
+        i {
+            color: #868e96;
+            margin: 0;
+            vertical-align: middle;
+        }
+
+        .clear {
+
+            i {
+                height: 23px;
+                width: 23px;
+                font-size: 23px;
+                pointer-events: none;
+            }
+        }
+        .search-icon {
+
+            i {
+                height: 20px;
+                width: 20px;
+                font-size: 20px;
+            }
+        }
+    }
+}
+
+.modchoosercontainer .optionscontainer,
+.modchoosercontainer .searchresultitemscontainer {
+    overflow-x: hidden;
+    .option {
+        // Six items per line.
+        flex-basis: 16%;
+        .optionactions {
+            .optionaction {
+                cursor: pointer;
+                margin: 0.2rem;
+                color: $gray-600;
+                i {
+                    margin: 0;
+                }
+            }
+        }
+        .optioninfo {
+            a {
+                color: $gray-700;
+                &:hover {
+                    text-decoration: none;
+                }
+                .optionname {
+                    margin-top: 0.5em;
+                }
+                .optionicon {
+                    .icon {
+                        margin: 0;
+                        padding: 0;
+                        width: 32px;
+                        height: 32px;
+                        font-size: 32px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.modchooser .modal-body .optionsummary {
+    background-color: $white;
+    overflow-x: hidden;
+    overflow-y: auto;
+    line-height: 2em;
+    height: 590px;
+
+    .content {
+        overflow-y: auto;
+        .heading {
+            .icon {
+                height: 32px;
+                width: 32px;
+                font-size: 32px;
+                padding: 0;
+            }
+        }
+    }
+
+    .actions {
+        border-top: 1px solid $gray-300;
+        background: $white;
+    }
+}
+
+@include media-breakpoint-down(lg) {
+    .modchoosercontainer .optionscontainer .option,
+    .modchoosercontainer .searchresultitemscontainer .option {
+        // Five items per line.
+        flex-basis: 20%;
+    }
+}
+
+@include media-breakpoint-down(xs) {
+    .path-course-view .modal-dialog.modal-lg,
+    .path-course-view .modal-content,
+    .modchooser .modal-body,
+    .modchooser .modal-body .carousel,
+    .modchooser .modal-body .carousel-inner,
+    .modchooser .modal-body .carousel-item,
+    .modchooser .modal-body .optionsummary,
+    .modchoosercontainer,
+    .optionscontainer,
+    .searchresultitemscontainer {
+        height: 100%;
+    }
+    .path-course-view .modal-dialog.modal-lg {
+        margin: 0;
+    }
+    .modchoosercontainer .optionscontainer .option,
+    .modchoosercontainer .searchresultitemscontainer .option {
+        // Four items per line.
+        flex-basis: 25%;
     }
 }
 
@@ -1548,13 +1735,6 @@ body.jsenabled .formlistingradio {
 
 body.jsenabled .formlisting {
     display: block;
-}
-
-/* Badges styles */
-table.collection {
-    @extend .table;
-    @extend .table-bordered;
-    @extend .table-striped;
 }
 
 a.criteria-action {
@@ -1679,15 +1859,15 @@ ul.badges {
 }
 
 .connected {
-    @extend .text-success;
+    color: map-get($theme-colors, 'success');
 }
 
 .notconnected {
-    @extend .text-danger;
+    color: map-get($theme-colors, 'danger');
 }
 
 .connecting {
-    @extend .text-warning;
+    color: map-get($theme-colors, 'warning');
 }
 
 #page-badges-award .recipienttable tr td {
@@ -2056,6 +2236,9 @@ $footer-link-color: $bg-inverse-link-color !default;
     width: 100%;
     color: $body-color;
 }
+.dropdown-item:active a {
+    color: $dropdown-link-active-color;
+}
 
 .competency-tree {
     ul {
@@ -2150,106 +2333,145 @@ div.editor_atto_toolbar button .icon {
     }
 }
 
-$switch-height: ($input-height-inner * .8) !default;
-$switch-height-half: ($switch-height / 2) !default;
-$switch-border-radius: $switch-height !default;
-$switch-bg: $custom-control-indicator-bg !default;
-$switch-checked-bg: map-get($theme-colors, 'primary') !default;
-$switch-disabled-bg: $custom-control-indicator-disabled-bg !default;
-$switch-disabled-color: $custom-control-label-disabled-color !default;
-$switch-thumb-bg: $white !default;
-$switch-thumb-border-radius: 50% !default;
-$switch-thumb-padding: 2px !default;
-$switch-thumb-padding-double: ($switch-thumb-padding * 2) !default;
-$switch-focus-box-shadow: 0 0 0 $input-btn-focus-width rgba(map-get($theme-colors, 'primary'), .25);
-$switch-transition: .2s all !default;
-
-.switch {
-    position: relative;
-
-    input {
-        float: left;
-        width: 1px;
-        transform: translateX(1px);
-        padding: 0;
-        margin: 0;
-        opacity: 0;
-
-        + label {
-            position: relative;
-            min-height: $switch-height;
-            min-width: $switch-height * 2;
-            line-height: $switch-height;
-            border-radius: $switch-border-radius;
-            display: inline-block;
-            cursor: pointer;
-            outline: none;
-            user-select: none;
-            vertical-align: middle;
-            padding-left: (($switch-height * 2) + .5rem);
-        }
-
-        + label::before,
-        + label::after {
-            content: '';
-            position: absolute;
-            top: calc(50% - #{$switch-height-half});
-            left: 0;
-            width: ($switch-height * 2);
-            height: $switch-height;
-            bottom: 0;
-            display: block;
-        }
-
-        + label::before {
-            right: 0;
-            background-color: $switch-bg;
-            border-radius: $switch-border-radius;
-            transition: $switch-transition;
-        }
-
-        + label::after {
-            margin-top: $switch-thumb-padding;
-            left: $switch-thumb-padding;
-            width: calc(#{$switch-height} - #{$switch-thumb-padding-double});
-            height: calc(#{$switch-height} - #{$switch-thumb-padding-double});
-            border-radius: $switch-thumb-border-radius;
-            background-color: $switch-thumb-bg;
-            transition: $switch-transition;
-        }
-
-        &:checked + label::before {
-            background-color: $switch-checked-bg;
-        }
-
-        &:checked + label::after {
-            margin-left: $switch-height;
-        }
-
-        &:focus + label::before {
-            outline: none;
-            box-shadow: $switch-focus-box-shadow;
-        }
-
-        &:disabled + label {
-            color: $switch-disabled-color;
-            cursor: not-allowed;
-        }
-
-        &:disabled + label::before {
-            background-color: $switch-disabled-bg;
-        }
-    }
-}
-
 .paged-content-page-container {
     min-height: 3.125rem;
+}
+
+body.h5p-embed {
+    #page-content {
+        display: inherit;
+    }
+    #maincontent {
+        display: none;
+    }
+    .h5pmessages {
+        min-height: 230px; // This should be the same height as default core_h5p iframes.
+    }
 }
 
 .text-decoration-none {
     text-decoration: none !important; /* stylelint-disable-line declaration-no-important */
 }
 
+.colour-inherit {
+    color: inherit !important; /* stylelint-disable-line declaration-no-important */
+}
+
 .position-right {
     right: 0 !important; /* stylelint-disable-line declaration-no-important */
+}
+
+.overflow-hidden {
+    overflow: hidden !important; /* stylelint-disable-line declaration-no-important */
+}
+
+.text-break {
+    overflow-wrap: break-word !important; /* stylelint-disable-line declaration-no-important */
+}
+
+.z-index-1 {
+    z-index: 1 !important; /* stylelint-disable-line declaration-no-important */
+}
+
+// These floats are deprecated in Bootstrap 4.3.1. It is still okay to use them in Moodle.
+.float-left {
+    float: left !important; /* stylelint-disable-line declaration-no-important */
+}
+.float-right {
+    float: right !important; /* stylelint-disable-line declaration-no-important */
+}
+
+// Emoji picker.
+$picker-width: 350px !default;
+$picker-width-xs: 320px !default;
+$picker-height: 400px !default;
+$picker-row-height: 40px !default;
+$picker-emoji-button-size: 40px !default;
+$picker-emoji-button-font-size: 24px !default;
+$picker-emoji-category-count: 9 !default;
+$picker-emojis-per-row: 7 !default;
+
+.emoji-picker {
+    width: $picker-width;
+    height: $picker-height;
+
+    .category-button {
+        padding: .375rem 0;
+        height: 100%;
+        width: $picker-width / $picker-emoji-category-count;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        border-bottom: 2px solid transparent;
+
+        &.selected {
+            border-bottom: 2px solid map-get($theme-colors, 'primary');
+        }
+    }
+
+    .emojis-container,
+    .search-results-container {
+        min-width: $picker-emojis-per-row * $picker-emoji-button-size;
+    }
+
+    .picker-row {
+        height: $picker-row-height;
+
+        .category-name {
+            line-height: $picker-row-height;
+        }
+
+        .emoji-button {
+            height: $picker-emoji-button-size;
+            width: $picker-emoji-button-size;
+            line-height: $picker-emoji-button-size;
+            font-size: $picker-emoji-button-font-size;
+            overflow: hidden;
+
+            @include hover-focus {
+                color: inherit;
+                text-decoration: none;
+            }
+        }
+    }
+
+    .emoji-preview {
+        height: $picker-row-height;
+        font-size: $picker-row-height;
+        line-height: $picker-row-height;
+    }
+
+    .emoji-short-name {
+        line-height: $picker-row-height / 2;
+    }
+
+    @include media-breakpoint-down(xs) {
+        width: $picker-width-xs;
+    }
+}
+
+.emoji-auto-complete {
+    height: $picker-row-height;
+
+    .btn.btn-link.btn-icon.emoji-button {
+        height: $picker-emoji-button-size;
+        width: $picker-emoji-button-size;
+        line-height: $picker-emoji-button-size;
+        font-size: $picker-emoji-button-font-size;
+
+        &.active {
+            background-color: $gray-200;
+        }
+    }
+}
+
+.toast-wrapper {
+    max-width: $toast-max-width;
+    max-height: 0;
+    // Place these above any modals and other elements.
+    z-index: 1051;
+
+    > :first-child {
+        margin-top: $spacer;
+    }
 }

@@ -44,9 +44,8 @@ function tool_task_mtrace_wrapper($message, $eol) {
 $taskname = required_param('task', PARAM_RAW_TRIMMED);
 
 // Basic security checks.
-require_login();
+require_admin();
 $context = context_system::instance();
-require_capability('moodle/site:config', $context);
 
 if (!get_config('tool_task', 'enablerunnow')) {
     print_error('nopermissions', 'error', '', get_string('runnow', 'tool_task'));
@@ -93,6 +92,11 @@ $CFG->mtrace_wrapper = 'tool_task_mtrace_wrapper';
 echo html_writer::end_tag('pre');
 
 $output = $PAGE->get_renderer('tool_task');
+
+// Re-run the specified task (this will output an error if it doesn't exist).
+echo $OUTPUT->single_button(new moodle_url('/admin/tool/task/schedule_task.php',
+        array('task' => $taskname, 'confirm' => 1, 'sesskey' => sesskey())),
+        get_string('runagain', 'tool_task'));
 echo $output->link_back();
 
 echo $OUTPUT->footer();
