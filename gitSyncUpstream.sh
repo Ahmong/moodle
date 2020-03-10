@@ -11,7 +11,7 @@ BRANCHES="master"
 
 getStables()
 {
-  for STR in MOODLE_{19..35}_STABLE; do
+  for STR in MOODLE_{36..38}_STABLE; do
     BRANCHES="$BRANCHES $STR"
   done
 }
