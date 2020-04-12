@@ -2527,7 +2527,6 @@ class core_renderer extends renderer_base {
 
         $attributes = array('src' => $src, 'class' => $class, 'width' => $size, 'height' => $size);
         if (!$userpicture->visibletoscreenreaders) {
-            $attributes['role'] = 'presentation';
             $alt = '';
             $attributes['aria-hidden'] = 'true';
         }
