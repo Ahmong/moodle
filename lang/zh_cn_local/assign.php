@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://47.94.85.212
+ * Local language pack from http://web.parall.docker/moodle
  *
  * @package    mod
  * @subpackage assign
@@ -25,7 +25,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['attemptreopenmethod_manual'] = '手动开启';
-$string['groupsnone'] = '目前在这门课程里没有任何组';
-$string['removeallgroupoverrides'] = '删除所有群组重做';
-$string['removealluseroverrides'] = '删除所有用户的重做';
+$string['changefilters'] = '变更过滤器';
+$string['groupsubmissionsettings'] = '作业分组提交设置';
+$string['hidegrader'] = '对学生隐藏打分者ID';
+$string['hidegrader_help'] = '如果启用，将不显示给提交的作业打分的用户ID，这样学生将不能看到是谁给作业打的分。<br/><br/>
+注意：此设置对打分页中的评论不起作用。';
+$string['nofilters'] = '无过滤器';
+$string['submissionstatementteamsubmission'] = '作业分组提交声明';
+$string['submissionstatementteamsubmissionallsubmit'] = '全体分组成员共同提交的分组作业的提交声明';

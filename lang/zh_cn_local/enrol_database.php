@@ -18,13 +18,12 @@
 /**
  * Local language pack from http://web.parall.docker/moodle
  *
- * @package    mod
- * @subpackage quiz
+ * @package    enrol
+ * @subpackage database
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['containercategorycreated'] = '由于以下特定原因，创建了一个类别，以存储所有移到站点层级的原始类别。';
-$string['editqcats'] = '编辑试题类别';
-$string['newcategory'] = '新类别';
+$string['defaultcategory'] = '默认的新课程分类';
+$string['defaultcategory_desc'] = '自动创建的课程的默认分类。当未指定类别id或类别id不存在时使用。';

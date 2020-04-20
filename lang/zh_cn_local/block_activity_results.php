@@ -18,13 +18,17 @@
 /**
  * Local language pack from http://web.parall.docker/moodle
  *
- * @package    mod
- * @subpackage quiz
+ * @package    block
+ * @subpackage activity_results
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['containercategorycreated'] = '由于以下特定原因，创建了一个类别，以存储所有移到站点层级的原始类别。';
-$string['editqcats'] = '编辑试题类别';
-$string['newcategory'] = '新类别';
+$string['config_name_format'] = '结果隐私';
+$string['defaultdecimalplaces'] = '小数位数';
+$string['defaultdecimalplaces_desc'] = '默认显示小数点后位数';
+$string['defaultnameoptions'] = '结果隐私';
+$string['defaultnameoptions_desc'] = '默认情况下如何标识学生？';
+$string['defaultshowgroups'] = '默认显示分组';
+$string['defaultshowgroups_desc'] = '默认显示分组而不是学生（仅当活动支持分组时）';

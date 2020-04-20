@@ -18,13 +18,13 @@
 /**
  * Local language pack from http://web.parall.docker/moodle
  *
- * @package    mod
- * @subpackage quiz
+ * @package    repository
+ * @subpackage upload
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['containercategorycreated'] = '由于以下特定原因，创建了一个类别，以存储所有移到站点层级的原始类别。';
-$string['editqcats'] = '编辑试题类别';
-$string['newcategory'] = '新类别';
+$string['configplugin'] = '配置上传文件容器';
+$string['pluginname'] = '上传文件';
+$string['privacy:metadata'] = '上传文件容器不保存任何个人数据。';

@@ -18,13 +18,15 @@
 /**
  * Local language pack from http://web.parall.docker/moodle
  *
- * @package    mod
- * @subpackage quiz
+ * @package    filter
+ * @subpackage displayh5p
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['containercategorycreated'] = '由于以下特定原因，创建了一个类别，以存储所有移到站点层级的原始类别。';
-$string['editqcats'] = '编辑试题类别';
-$string['newcategory'] = '新类别';
+$string['allowedsourceslistdesc'] = '一组用户可用作内嵌H5P内容的URL。如果不指定任何URL，所有URL都显示为链接而不是显示为内嵌的H5P内容。\'[id]\'是外部资源中H5P内容ID的占位符。例如：
+<ul><li>H5P.com: https://[xxxxxx].h5p.com/content/[id] </li>
+<li>Wordpress: http://myserver/wp-admin/admin-ajax.php?action=h5p_embed&id=[id]</li></ul>';
+$string['filtername'] = '显示H5P';
+$string['privacy:metadata'] = '显示H5P过滤器不保存任何个人数据。';

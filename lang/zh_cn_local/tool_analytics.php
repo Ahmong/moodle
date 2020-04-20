@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://47.94.85.212
+ * Local language pack from http://web.parall.docker/moodle
  *
  * @package    tool
  * @subpackage analytics
@@ -25,6 +25,4 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['analyticmodels'] = '分析模型';
-$string['insights'] = '透视';
-$string['pluginname'] = '分析模型';
+$string['clievaluationandpredictions'] = '一个计划的任务将在启用的模型中迭代，并获得预测。将禁用通过web界面进行模型评估。您可以通过禁用<a href="{$a}">\'onlycli\'</a> 分析设置来允许这些程序通过web界面来手动执行。';

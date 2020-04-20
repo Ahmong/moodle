@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://47.94.85.212
+ * Local language pack from http://web.parall.docker/moodle
  *
  * @package    tool
  * @subpackage mobile
@@ -25,8 +25,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['apppolicy_help'] = '在App的“关于页”上列出的法律条款URL。如果为空，则使用本站点的法律条款URL。';
-$string['getmoodleonyourmobile'] = '获取移动App';
-$string['mobileapp'] = '移动App';
-$string['mobileappconnected'] = '已连接的移动App';
-$string['mobilesettings'] = '移动App设置';
+$string['apppolicy'] = 'App 政策 URL';
+$string['apppolicy_help'] = '显示在 App “关于”页面里的用户使用政策的 URL。如果为空，将使用站点使用政策的 URL。';
+$string['h5poffline'] = '离线显示H5P内容';

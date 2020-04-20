@@ -19,12 +19,15 @@
  * Local language pack from http://web.parall.docker/moodle
  *
  * @package    mod
- * @subpackage quiz
+ * @subpackage label
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['containercategorycreated'] = '由于以下特定原因，创建了一个类别，以存储所有移到站点层级的原始类别。';
-$string['editqcats'] = '编辑试题类别';
-$string['newcategory'] = '新类别';
+$string['configdndmedia'] = '当拖拽一个多媒体文件到课程时，创建一个标签。';
+$string['configdndresizeheight'] = '当通过拖拽图片创建标签时，如果图片高度大于设置值，则调整其高度（0表示不调整）。';
+$string['configdndresizewidth'] = '当通过拖拽图片创建标签时，如果图片宽度大于设置值，则调整其宽度（0表示不调整）。';
+$string['dndmedia'] = '多媒体拖拽';
+$string['dndresizeheight'] = '调整拖拽标签的高度';
+$string['dndresizewidth'] = '调整拖拽标签的宽度';

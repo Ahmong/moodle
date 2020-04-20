@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://47.94.85.212
+ * Local language pack from http://web.parall.docker/moodle
  *
  * @package    tool
  * @subpackage usertours
@@ -25,5 +25,5 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['pluginname'] = '用户向导';
-$string['usertours'] = '用户向导';
+$string['filter_header'] = '使用导航过滤器';
+$string['filter_help'] = '选择使用导航的显示条件。所有过滤器都必须匹配将显示给用户的一个使用导航。';

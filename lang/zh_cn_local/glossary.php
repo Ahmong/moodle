@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://47.94.85.212
+ * Local language pack from http://web.parall.docker/moodle
  *
  * @package    mod
  * @subpackage glossary
@@ -25,4 +25,4 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['removeallglossarytags'] = '删除所有词汇表标签';
+$string['privacy'] = '结果隐私';

@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://47.94.85.212
+ * Local language pack from http://web.parall.docker/moodle
  *
  * @package    core
  * @subpackage question
@@ -25,6 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['filterbytags'] = '输入过滤标签...';
-$string['notagfiltersapplied'] = '无过滤标签';
-$string['topfor'] = '[($a)] 的上级类别';
+$string['cannotdeletetopcat'] = '顶层类别不能删除。';
+$string['cannotedittopcat'] = '顶层类别不能被编辑。';
+$string['notagfiltersapplied'] = '没有应用标签过滤器';
+$string['questionsmovedto'] = '仍在使用的题目将移到父课程分类的“{$a}”中。';

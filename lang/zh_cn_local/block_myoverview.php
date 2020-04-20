@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://47.94.85.212
+ * Local language pack from http://web.parall.docker/moodle
  *
  * @package    block
  * @subpackage myoverview
@@ -25,4 +25,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['pluginname'] = '课程概览';
+$string['availablegroupings'] = '可用的过滤器';
+$string['availablegroupings_desc'] = '可让用户选择的课程过滤器。如果都不选，则显示所有课程。';
+$string['customfield'] = '自定义字段';
+$string['customfiltergrouping'] = '要使用的字段';
+$string['customfiltergrouping_nofields'] = '此参数要求设置一个自定义字段，此字段任何人可见。';
+$string['displaycategories'] = '显示分类';
+$string['displaycategories_help'] = '在仪表盘的课程条目中显示课程分类，包括卡片、列表和摘要。';
+$string['layouts'] = '可用布局';
+$string['layouts_help'] = '可让用户选择的课程概览布局。如果都不选择，则使用卡片布局。';

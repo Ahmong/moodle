@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://47.94.85.212
+ * Local language pack from http://web.parall.docker/moodle
  *
  * @package    tool
  * @subpackage policy
@@ -25,6 +25,5 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['filterplaceholder'] = '输入查询关键字或选择过滤条件';
-$string['nofiltersapplied'] = '无过滤条件';
-$string['pluginname'] = '法律条款';
+$string['filters'] = '过滤器';
+$string['nofiltersapplied'] = '没有应用过滤器';

@@ -18,13 +18,12 @@
 /**
  * Local language pack from http://web.parall.docker/moodle
  *
- * @package    mod
- * @subpackage quiz
+ * @package    block
+ * @subpackage online_users
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['containercategorycreated'] = '由于以下特定原因，创建了一个类别，以存储所有移到站点层级的原始类别。';
-$string['editqcats'] = '编辑试题类别';
-$string['newcategory'] = '新类别';
+$string['onlinestatushiding'] = '隐藏在线状态';
+$string['onlinestatushiding_desc'] = '如启用，用户可选择对其他人隐藏自己的在线状态。';

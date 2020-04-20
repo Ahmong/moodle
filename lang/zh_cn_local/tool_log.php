@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://47.94.85.212
+ * Local language pack from http://web.parall.docker/moodle
  *
  * @package    tool
  * @subpackage log
@@ -25,4 +25,5 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['privacy:request:origin:ws'] = '移动App或web service';
+$string['configlogplugins'] = '请启用所有需要的插件，并将它们调整到合适的顺序。';
+$string['reportssupported'] = '支持的报表';

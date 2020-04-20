@@ -18,13 +18,14 @@
 /**
  * Local language pack from http://web.parall.docker/moodle
  *
- * @package    mod
- * @subpackage quiz
+ * @package    cachestore
+ * @subpackage apcu
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['containercategorycreated'] = '由于以下特定原因，创建了一个类别，以存储所有移到站点层级的原始类别。';
-$string['editqcats'] = '编辑试题类别';
-$string['newcategory'] = '新类别';
+$string['pluginname'] = 'APC用户缓存（APCu）';
+$string['privacy:metadata'] = 'APC用户缓存（APCu）只因为缓存功能而存储数据，并且会定期清理数据，不会用任何方式将数据发送到外部。';
+$string['testperformance'] = '测试性能';
+$string['testperformance_desc'] = '如果启用，当查看测试性能页面时会包含APCu的性能。不建议在生产站点中启用此参数。';

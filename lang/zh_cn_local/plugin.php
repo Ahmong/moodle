@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://47.94.85.212
+ * Local language pack from http://web.parall.docker/moodle
  *
  * @package    core
  * @subpackage plugin
@@ -25,6 +25,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['type_fileconverter_plural'] = '文件转换器';
-$string['type_fileconvertermanage'] = '管理文件转换器';
-$string['type_media_plural'] = '媒体播放器';
+$string['requiredby'] = '依赖于：{$a}';
+$string['type_customfield'] = '自定义字段';
+$string['type_customfield_plural'] = '自定义字段';
+$string['type_plagiarism'] = '反抄袭插件';
+$string['type_plagiarism_plural'] = '反抄袭插件';
+$string['type_portfolio_plural'] = '卷宗夹';

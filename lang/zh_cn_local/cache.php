@@ -18,13 +18,14 @@
 /**
  * Local language pack from http://web.parall.docker/moodle
  *
- * @package    mod
- * @subpackage quiz
+ * @package    core
+ * @subpackage cache
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['containercategorycreated'] = '由于以下特定原因，创建了一个类别，以存储所有移到站点层级的原始类别。';
-$string['editqcats'] = '编辑试题类别';
-$string['newcategory'] = '新类别';
+$string['cachedef_calculablesinfo'] = '可计算的分析信息';
+$string['cachedef_coursecat'] = '特定用户的课程分类列表';
+$string['cachedef_coursecatrecords'] = '课程分类记录';
+$string['cachedef_coursecattree'] = '课程分类树';

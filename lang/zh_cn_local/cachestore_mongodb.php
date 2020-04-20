@@ -18,13 +18,11 @@
 /**
  * Local language pack from http://web.parall.docker/moodle
  *
- * @package    mod
- * @subpackage quiz
+ * @package    cachestore
+ * @subpackage mongodb
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['containercategorycreated'] = '由于以下特定原因，创建了一个类别，以存储所有移到站点层级的原始类别。';
-$string['editqcats'] = '编辑试题类别';
-$string['newcategory'] = '新类别';
+$string['testserver_desc'] = '测试服务器的连接字符串。如果设置了测试服务器，则可在管理板块里的缓存性能页面上测试MongoDB性能。示例：mongodb://127.0.0.1:27017';

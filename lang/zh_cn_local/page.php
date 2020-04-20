@@ -19,12 +19,11 @@
  * Local language pack from http://web.parall.docker/moodle
  *
  * @package    mod
- * @subpackage quiz
+ * @subpackage page
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['containercategorycreated'] = '由于以下特定原因，创建了一个类别，以存储所有移到站点层级的原始类别。';
-$string['editqcats'] = '编辑试题类别';
-$string['newcategory'] = '新类别';
+$string['printlastmodified'] = '显示最后更新日期';
+$string['printlastmodifiedexplain'] = '在内容下面显示最后更新日期？';

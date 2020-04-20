@@ -18,13 +18,15 @@
 /**
  * Local language pack from http://web.parall.docker/moodle
  *
- * @package    mod
- * @subpackage quiz
+ * @package    core
+ * @subpackage plagiarism
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['containercategorycreated'] = '由于以下特定原因，创建了一个类别，以存储所有移到站点层级的原始类别。';
-$string['editqcats'] = '编辑试题类别';
-$string['newcategory'] = '新类别';
+$string['configenableplagiarism'] = '这将允许管理员配置反抄袭插件（如果已安装）';
+$string['configplagiarismplugins'] = '请选择您要配置的反抄袭插件';
+$string['enableplagiarism'] = '启用反抄袭插件';
+$string['manageplagiarism'] = '管理反抄袭插件';
+$string['nopluginsinstalled'] = '没有安装任何反抄袭插件';

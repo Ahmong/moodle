@@ -18,13 +18,13 @@
 /**
  * Local language pack from http://web.parall.docker/moodle
  *
- * @package    mod
- * @subpackage quiz
+ * @package    logstore
+ * @subpackage database
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['containercategorycreated'] = '由于以下特定原因，创建了一个类别，以存储所有移到站点层级的原始类别。';
-$string['editqcats'] = '编辑试题类别';
-$string['newcategory'] = '新类别';
+$string['filters_help'] = '启用过滤器以排除一些操作被记录日志。';
+$string['jsonformat_desc'] = '在"other"数据库字段中用标准JSON格式替代PHP序列化数据。';
+$string['pluginname'] = '外部数据库日志';

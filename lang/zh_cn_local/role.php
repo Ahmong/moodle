@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://47.94.85.212
+ * Local language pack from http://web.parall.docker/moodle
  *
  * @package    core
  * @subpackage role
@@ -25,4 +25,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['course:overridecompletion'] = '覆盖活动跟踪状态';
+$string['course:changelockedcustomfields'] = '更改已锁定的自定义字段';
+$string['course:configurecustomfields'] = '配置自定义字段';
+$string['h5p:deploy'] = '发布H5P内容';
+$string['h5p:updatelibraries'] = '管理H5P内容类型';
+$string['portfolio:export'] = '导出到卷宗夹';

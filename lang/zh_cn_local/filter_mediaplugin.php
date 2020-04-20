@@ -18,13 +18,14 @@
 /**
  * Local language pack from http://web.parall.docker/moodle
  *
- * @package    mod
- * @subpackage quiz
+ * @package    filter
+ * @subpackage mediaplugin
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['containercategorycreated'] = '由于以下特定原因，创建了一个类别，以存储所有移到站点层级的原始类别。';
-$string['editqcats'] = '编辑试题类别';
-$string['newcategory'] = '新类别';
+$string['filtername'] = '多媒体过滤器插件';
+$string['linktomedia'] = '多媒体过滤器插件在文本中寻找指向多媒体资源的链接，并将其替换为合适的能播放该多媒体链接的多媒体播放器代码。也会将&lt;video&gt;和&lt;audio&gt;标签替换为选择的视频和音频播放器。<br/><br/>
+<a href="{$a}">管理多媒体播放器</a>';
+$string['privacy:metadata'] = '多媒体过滤器插件不保存任何个人数据。';
