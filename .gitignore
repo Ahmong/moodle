@@ -44,3 +44,7 @@ composer.phar
 /lib/yuilib/*/*/*-coverage.js
 atlassian-ide-plugin.xml
 /node_modules/
+#integrate admin/tool/objectfs and remotefs aws & openstack
+/admin/tool/objectfs
+/local/aws
+/local/openstack
