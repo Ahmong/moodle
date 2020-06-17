@@ -48,3 +48,4 @@ atlassian-ide-plugin.xml
 /admin/tool/objectfs
 /local/aws
 /local/openstack
+/local/azure_storage
