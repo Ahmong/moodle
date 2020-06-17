@@ -49,3 +49,4 @@ atlassian-ide-plugin.xml
 /local/aws
 /local/openstack
 /local/azure_storage
+/local/oss
