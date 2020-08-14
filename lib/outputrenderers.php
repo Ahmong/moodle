@@ -4643,6 +4643,10 @@ EOD;
                     }
                 }
 
+                if (method_exists($element, 'getNolabelcol')) {
+                    $elementcontext['nolabelcol'] = $element->getNolabelcol();
+                }
+
                 // Generate the form element wrapper ids and names to pass to the template.
                 // This differs between group and non-group elements.
                 if ($element->getType() === 'group') {

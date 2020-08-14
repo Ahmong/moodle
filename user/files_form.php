@@ -43,7 +43,9 @@ class user_files_form extends moodleform {
         $data = $this->_customdata['data'];
         $options = $this->_customdata['options'];
 
-        $mform->addElement('filemanager', 'files_filemanager', get_string('files'), null, $options);
+        $files_filemanager = $mform->addElement('filemanager', 'files_filemanager', get_string('files'), null, $options);
+        $files_filemanager->setNolabelcol(true);
+
         $mform->addElement('hidden', 'returnurl', $data->returnurl);
         if (isset($data->emaillink)) {
             $emaillink = html_writer::link(new moodle_url('mailto:' . $data->emaillink), $data->emaillink);

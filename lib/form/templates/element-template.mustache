@@ -43,13 +43,14 @@
     }
 }}
 <div id="{{element.wrapperid}}" class="form-group row {{#error}}has-danger{{/error}} fitem {{#element.emptylabel}}femptylabel{{/element.emptylabel}} {{#advanced}}advanced{{/advanced}} {{{element.extraclasses}}}" {{#element.groupname}}data-groupname="{{.}}"{{/element.groupname}}>
+    {{^element.nolabelcol}}
     <div class="col-md-3">
         <span class="float-sm-right text-nowrap">
             {{#required}}<abbr class="initialism text-danger" title="{{#str}}required{{/str}}">{{#pix}}req, core, {{#str}}required{{/str}}{{/pix}}</abbr>{{/required}}
             {{#advanced}}<abbr class="initialism text-info" title="{{#str}}advanced{{/str}}">!</abbr>{{/advanced}}
             {{{helpbutton}}}
         </span>
-        {{$ label }}
+        {{#label }}
             {{^element.staticlabel}}
                 <label class="col-form-label d-inline {{#element.hiddenlabel}}sr-only{{/element.hiddenlabel}}" for="{{element.id}}">
                     {{{label}}}
@@ -60,9 +61,10 @@
                     {{{label}}}
                 </span>
             {{/element.staticlabel}}
-        {{/ label }}
-    </div>
-    <div class="col-md-9 form-inline felement" data-fieldtype="{{element.type}}">
+        {{/label }}
+      </div>
+    {{/element.nolabelcol}}
+    <div class="{{#element.nolabelcol}}col-md-12{{/element.nolabelcol}} {{^element.nolabelcol}}col-md-9{{/element.nolabelcol}} form-inline felement" data-fieldtype="{{element.type}}">
         {{$ element }}
             <!-- Element goes here -->
         {{/ element }}

@@ -53,8 +53,16 @@ class MoodleQuickForm_filemanager extends HTML_QuickForm_element implements temp
     // PHP doesn't support 'key' => $value1 | $value2 in class definition
     // We cannot do $_options = array('return_types'=> FILE_INTERNAL | FILE_REFERENCE);
     // So I have to set null here, and do it in constructor
-    protected $_options = array('mainfile' => '', 'subdirs' => 1, 'maxbytes' => -1, 'maxfiles' => -1,
-            'accepted_types' => '*', 'return_types' =>  null, 'areamaxbytes' => FILE_AREA_MAX_BYTES_UNLIMITED);
+    protected $_options = array(
+        'mainfile' => '',
+        'subdirs' => 1,
+        'maxbytes' => -1,
+        'maxfiles' => -1,
+        'accepted_types' => '*',
+        'return_types' =>  null,
+        'areamaxbytes' => FILE_AREA_MAX_BYTES_UNLIMITED,
+        'nolabelcol' => false
+    );
 
     /**
      * Constructor
@@ -81,6 +89,7 @@ class MoodleQuickForm_filemanager extends HTML_QuickForm_element implements temp
             $this->_options['return_types'] = (FILE_INTERNAL | FILE_REFERENCE | FILE_CONTROLLED_LINK);
         }
         $this->_type = 'filemanager';
+
         parent::__construct($elementName, $elementLabel, $attributes);
     }
 
@@ -146,6 +155,24 @@ class MoodleQuickForm_filemanager extends HTML_QuickForm_element implements temp
      */
     function getValue() {
         return $this->getAttribute('value');
+    }
+
+    /**
+     * Set filemanager nolabelcol option
+     *
+     * @param $value
+     */
+    function setNolabelcol($value) {
+        $this->_options['nolabelcol'] = $value ? true : false;
+    }
+
+    /**
+     * Returns ilemanager nolabelcol option
+     *
+     * @return boolean f
+     */
+    function getNolabelcol() {
+        return $this->_options['nolabelcol'];
     }
 
     /**
