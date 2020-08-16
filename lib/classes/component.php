@@ -37,7 +37,6 @@ define('MATURITY_STABLE',   200);
 /** Any version - special value that can be used in $plugin->dependencies in version.php files. */
 define('ANY_VERSION', 'any');
 
-
 /**
  * Collection of components related methods.
  */
@@ -66,6 +65,8 @@ class core_component {
     protected static $plugintypes = null;
     /** @var array cache of plugin locations */
     protected static $plugins = null;
+    /** @var array cache of ignored plugin dirs */
+    protected static $ignoredplugindirs = null;
     /** @var array cache of core subsystems */
     protected static $subsystems = null;
     /** @var array subplugin type parents */
@@ -538,6 +539,19 @@ $cache = '.var_export($cache, true).';
     }
 
     /**
+     * Returns the ignored plugin dirs as loaded from /lib/ignoredplugins.json.
+     *
+     * @return array
+     */
+    protected static function fetch_ignored_plugin_dirs() {
+        if (null === self::$ignoredplugindirs) {
+            self::$ignoredplugindirs = (array) json_decode(file_get_contents(__DIR__ . '/../ignoredplugins.json'));
+        }
+
+        return (array) self::$ignoredplugindirs['ignoreddirs'];
+    }
+
+    /**
      * Returns list of subtypes.
      * @param string $ownerdir
      * @return array
@@ -609,6 +623,11 @@ $cache = '.var_export($cache, true).';
                 if ($plugintype === 'auth' and $pluginname === 'db') {
                     // Special exception for this wrong plugin name.
                 } else if (isset(self::$ignoreddirs[$pluginname])) {
+                    continue;
+                }
+                $plugindir = substr($fulldir, strlen($CFG->dirroot)+1).'/'.$pluginname;
+                if (in_array($plugindir, self::fetch_ignored_plugin_dirs())) {
+                    // Ignored plugin dirs.
                     continue;
                 }
                 if (!self::is_valid_plugin_name($plugintype, $pluginname)) {

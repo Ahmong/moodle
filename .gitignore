@@ -50,3 +50,4 @@ atlassian-ide-plugin.xml
 /local/openstack
 /local/azure_storage
 /local/oss
+/lib/ignoredplugins.json
