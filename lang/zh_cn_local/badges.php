@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    core
  * @subpackage badges
@@ -25,69 +25,22 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['addbackpack'] = '添加徽章背包';
-$string['addedtobackpack'] = '徽章已添加至徽章背包';
-$string['addtobackpack'] = '添加进徽章背包';
-$string['allowexternalbackpack'] = '允许连接到外部徽章背包';
-$string['allowexternalbackpack_desc'] = '允许用户通过网络连接展示他们保存在外部徽章背包服务中心处的徽章。 提示：当无法从 Internet 访问此站点时（例如防火墙等造成的原因），建议禁用此选项。';
-$string['apiversion'] = '支持的API版本';
-$string['archivehelp'] = '<p>这个选项表示徽章将被标记为“退役”，将不再出现在徽章列表中。用户将不再能够获得这枚徽章，然而现有的徽章获得者仍然可以在他们的个人档案页面显示这个徽章并将它推到外部徽章背包。</p> <p>如果您想让用户仍然能够保持获得的徽章，请选择此选项而不是完全删除徽章。</p>';
-$string['backpackapiurl'] = '徽章背包 API URL';
-$string['backpackavailability_help'] = '为了能让徽章容器验证从你这里获得的徽章，一个外部徽章背包服务应该能访问您的站点并验证所颁发的徽章的有效性。您的站点目前无法访问，意味着您已经颁发的徽章或将要颁发的徽章都无法得到验证。 **为什么我会看到这条信息？** 可能是您的防火墙拒绝了您的网络外部的用户访问，或者您的站点有密码保护，或者您的站点运行在了一台互联网无法访问的电脑上（比如一台本地开发用机器）。 **是出问题了吗？** 如果您打算在任何一个投入实际应用的站点上颁发徽章，那么你应该解决这个问题，否则容器是无法验证从您这里获得的徽章的。如果您的站点还没有投入实际应用，您可以建立并发布测试徽章，直到您的站点可以被外部访问。 **如果我无法让我的整个站点被公开访问，该怎么办？** 验证仅仅需要一个网址，那就是[your-site-url]/badges/assertion.php，因此您只需要修改防火墙规则允许外部可访问这个文件，验证就可以进行了。';
-$string['backpackbadges'] = '您从 {$a->totalcollections} 搜集的徽章有 {$a->totalbadges} 个已显示。 <a href="mybackpack.php">修改背包设置</a>。';
-$string['backpackbadgessettings'] = '更改徽章背包设置';
-$string['backpackconnection'] = '徽章背包连接';
-$string['backpackconnection_help'] = '本页允许你设置一个访问外部背包服务的链接。背包链接让您显示外部勋章到自己的站点，也可以推送本地获得的勋章到您的外部背包。 当前，仅<a href="http://backpack.openbadges.org">Mozilla OpenBadges Backpack</a>被支持。在您尝试在这个页面建立一个背包链接前，你需要注册一个背包服务。';
-$string['backpackconnectionconnect'] = '连接到徽章背包';
-$string['backpackconnectionunexpectedmessage'] = '徽章背包返回错误：“{$a}”。';
-$string['backpackconnectionunexpectedresult'] = '连接徽章背包出现问题。请再次尝试。<br><br>如果该问题继续发生，请联系管理员。';
-$string['backpackdetails'] = '徽章背包设置';
-$string['backpackemail_help'] = '此邮件地址关联了您的徽章背包。当您连接时，任何在此站点获得的徽章将与此邮件地址关联。';
-$string['backpackemailverifyemailbody'] = 'Hi，从\'{$a->sitename}\'来的使用您的邮箱地址的徽章背包连接请求已经到达。要确认并激活此连接，请用邮件客户端点击{$a->link}。如果无法打开连接，请复制并黏贴此地址到浏览器地址栏。如需帮助，请联系网站管理员{$a->admin}。';
-$string['backpackemailverifyemailsubject'] = '{$a}:开放徽章背包的邮箱验证';
-$string['backpackemailverifypending'] = '一封验证邮件已经发送到<strong>{$a}</strong>。点击邮件中的验证连接来激活您的徽章背包连接。';
-$string['backpackemailverifysuccess'] = '感谢您的邮箱验证。您现在已经连接到了您的徽章背包。';
-$string['backpackimport_help'] = '背包连接成功建立后，你的背包中的徽章可以显示在“我的徽章”页面和您的个人档案页面。 在这个区域，你可以从背包中选择收藏徽章，以便在你的个人档案页显示。';
-$string['backpackneedsupdate'] = '连接到此个人档案的徽章背包无法匹配此站点的徽章背包。请您断开并重新连接此徽章背包。';
-$string['backpacksettings'] = '徽章背包设置';
-$string['backpackweburl'] = '徽章背包URL';
-$string['badgesalt_desc'] = '提供一个哈希串给徽章服务中心，以便确保勋章获得者不会暴露他们的 email 地址。此项设计只能填入数字和字母。 注意：为了保证有效验证收件人，一旦你开始发行徽章请避免更改此设置。';
-$string['defaultissuercontact'] = '徽章颁发者邮箱地址';
-$string['defaultissuercontact_desc'] = '徽章颁发者的关联邮箱地址。在Open Badges v2.0背包中，这个邮箱地址用来认证发布到背包中的徽章。';
-$string['defaultissuername'] = '徽章颁发者名称';
-$string['defaultissuerpassword'] = '徽章颁发者口令';
-$string['defaultissuerpassword_help'] = '在徽章背包站点需要一个邮箱地址作为账号，该邮箱地址在“网站管理/徽章/徽章设置“中的徽章颁发者参数中设置。在这里输入该账号的口令。';
-$string['deletehelp'] = '<P>完全删除一个徽章，意味着所有的信息和标准的记录将被永久删除。赢得了这枚徽章的用户将不再能够访问和显示在个人档案页。</P > <P>注：赢得了这枚徽章的用户，如果已经把它推到外部背包，仍可在其外部的背包中拥有这个徽章。然而，他们将不能访问链接到本站点的徽章标准和依据网页。</P >';
-$string['delexternalbackpackconfirm'] = '删除站点徽章背包“{$a}”吗？';
-$string['error:backpackdatainvalid'] = '从徽章背包返回的数据是无效的。';
-$string['error:backpacknotavailable'] = '您的站点无法通过 Internet 访问，故此站点下颁发的徽章均不能被外部徽章背包服务中心确认。';
-$string['error:nogroups'] = '<p>您的背包中没有有效的公开徽章集。 </p> <p>仅显示公开徽章集, <a href="http://backpack.openbadges.org">浏览您的背包</a> 创建公开徽章集。</p>';
-$string['error:nogroupslink'] = '<p>只显示公共徽章集。在<a href="{$a}" target="_blank" rel="nofollow">查看您的背包</a>中创建公共徽章集。</p>';
-$string['error:nogroupssummary'] = '<p>您的徽章背包中没有可用的公共徽章集</p>';
-$string['error:nosuchuser'] = '此电子邮件地址的用户没有在当前背包供应商上拥有账号。';
-$string['existsinbackpack'] = '徽章背包中已有此徽章';
-$string['externalbadges_help'] = '此处展示您外部背包中的徽章。';
-$string['listbackpacks'] = '徽章背包列表';
-$string['localbadgesh_help'] = '所有在此站点通过完成课程、课程活动和其他要求获得的徽章。您可在此管理您的徽章，设置为个人档案中的公共或者私有徽章。您可以下载这些徽章并保存到您的电脑中。下载的徽章可以添加至外部徽章背包服务站点。';
-$string['localconnectto'] = '分享这些徽章到外部网站，您需要< a href ="{$a}“>连接到背包</a>。';
-$string['managebackpacks'] = '管理徽章';
-$string['mybackpack'] = '我的徽章背包设置';
-$string['nobackpack'] = '没有徽章背包服务连接到这个帐户。<br/>';
-$string['nobackpackbadges'] = '在你所选择的集合没有徽章。<a href="mybackpack.php">添加更多集合</a>。';
-$string['nobackpackcollections'] = '没有选中的徽章集。<a href="mybackpack.php">添加徽章集</a>。';
-$string['nobackpacks'] = '没有可用的徽章背包';
-$string['privacy:metadata:backpack'] = '用户徽章背包记录';
-$string['privacy:metadata:backpack:backpackuid'] = '徽章背包唯一标识符';
-$string['privacy:metadata:backpack:email'] = '徽章背包关联的邮箱地址';
-$string['privacy:metadata:backpack:externalbackpackid'] = '徽章背包的ID';
-$string['privacy:metadata:backpack:userid'] = '徽章背包所属用户的ID';
-$string['privacy:metadata:external:backpacks'] = '当向外部勋章背包提交勋章时共享的信息';
-$string['selectgroup_end'] = '仅显示公共徽章集，在<a href="{$a}">访问您的徽章背包</a>中创建更多公共徽章集。';
-$string['selectgroup_start'] = '从您的徽章背包中选择徽章集以在此站点显示。';
-$string['sitebackpack'] = '活跃的外部徽章背包';
-$string['sitebackpack_help'] = '在此站点可以连接的外部背包集。注意：如更改此设置，已连接徽章背包的用户将需要进到徽章背包设置页面，断开连接后再重新连接。';
-$string['sitebackpackverify'] = '徽章背包连接';
-$string['sitebackpackwarning'] = '无法连接到徽章背包。<br/><br/>
-请检查“徽章颁发者邮箱地址”参数值是否是徽章背包站点上的有效的账号所用的邮箱地址。<br/><br/>
-检查“徽章颁发者口令“参数是否正确。<a href="{$a->url}">站点徽章背包设置页</a><br/><br/>
-徽章背包返回值："{$a->warning}"';
+$string['allmethodprofile'] = '所有选定的个人资料字段都已完成';
+$string['allowexternalbackpack_desc'] = '如果启用，用户可以连接到外部背包，并从这个网站共享他们的勋章。用户也可以选择在本网站的个人资料页面上显示任何来自外部背包的公共勋章收藏。如果您的站点无法从Internet访问，建议禁用此选项。';
+$string['anymethodprofile'] = '所有选定的个人资料字段都已完成';
+$string['archivehelp'] = '<p>此选项意味着该勋章将被标记为“已退役”，并且不再出现在勋章列表中。用户将不再能够获得此勋章，但是已有的勋章获得者仍然可以在他们的个人资料页面上显示此勋章，并将它推送到他们的外部背包上。</p> <p>如果您希望您的用户保留对已获得勋章的访问权，那么请选择此选项而不是完全删除勋章。</p>';
+$string['backpackimport_help'] = '成功建立背包连接后，来自背包的勋章可以显示在勋章页面和个人资料页面上。在这个区域，您可以从您的背包中选择您想要显示在您的个人档案中的勋章集合。';
+$string['backpackneedsupdate'] = '连接到此个人资料页的背包与该站点的背包不匹配。您需要断开并重新连接背包。';
+$string['badgeprivacysetting_help'] = '您获得的勋章可以显示在您的帐户个人资料页面。此设置允许您自动设置新获得的勋章的可见性。您仍然可以在您的勋章页面上控制个人的勋章隐私设置。';
+$string['badgeprivacysetting_str'] = '自动在我的个人资料页面上展示我获得的勋章';
+$string['boverview'] = '总览';
+$string['criteria_3'] = '社交参与';
+$string['criteria_3_help'] = '社交';
+$string['criteria_6'] = '个人资料已完成';
+$string['criteria_6_help'] = '允许为完成用户资料中的某些字段授予勋章。您可以从用户可用的默认和自定义个人资料字段中进行选择。';
+$string['criteria_descr_6'] = '<strong>{$a}</strong>必须填写以下用户个人资料字段：';
+$string['criteria_descr_single_6'] = '必须填写以下用户个人资料字段：';
+$string['deletehelp'] = '完全删除一个勋章意味着它的所有信息和规则记录将被永久删除。获得此勋章的用户将不再能够访问它并在其个人资料页面上显示它。注：已获得此勋章并已将其推入外置背包的用户，其外置背包内仍有此勋章。然而，他们将无法访问链接回本网站的规则和证书页面。';
+$string['error:nosuchfield'] = '警告：这个用户个人资料字段不再可用。';
+$string['localbadgesh_help'] = '通过完成课程、课程活动和其他要求而在本网站内获得的所有勋章。您可以在这里管理您的勋章，通过使他们公开或私人为您的个人资料页。您可以下载您的所有勋章或每个勋章分别保存在您的电脑上。下载的勋章可以添加到您的外部背包服务。';
+$string['sitebadges_help'] = '站点勋章只能授予站点级别相关活动的用户。包括完成一个课程组或者是完善一部分个人资料等。站点勋章也可以由一个用户手工颁发给别人。 课程相关活动的勋章则只能在课程级别创建。课程勋章可以在课程管理->勋章中找到。';

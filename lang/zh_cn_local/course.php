@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    core
  * @subpackage course
@@ -25,5 +25,5 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['aria:coursecategory'] = '课程分类';
-$string['customfield_notvisible'] = '无人';
+$string['target:norecentaccesses_help'] = '此目标将识别哪些学生已选修了课程，但是在指定的分析时间分片（默认是过去一个月）里没有访问过课程。';
+$string['target:norecentaccessesinfo'] = '下列学生在指定的时间片段内（默认是过去一个月）没有访问他们选修的课程。';

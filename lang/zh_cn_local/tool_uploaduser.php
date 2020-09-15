@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    tool
  * @subpackage uploaduser
@@ -25,9 +25,4 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['examplecsv'] = '示例文件';
-$string['examplecsv_help'] = '如何使用示例文件：下载示例文件，用文本编辑器或表单编辑器打开它。不要更改第一行，然后编辑后续的行（每行相当于一条记录）以添加自己的用户数据，可添加更多行。以csv后缀名保存文件并上传。上传文件也可以做测试用，这样您可以在真正创建用户账号钱预览您的用户数据。';
-$string['uploadusers'] = '上传用户清单';
-$string['uploaduserspreview'] = '预览用户清单';
-$string['uploadusersresult'] = '用户清单上传结果';
-$string['userthemesnotallowed'] = '用户主题未启用，所以任何包含在上传用户文件中的主题都会被忽略。';
+$string['uuupdatetype'] = '已存在用户详情';

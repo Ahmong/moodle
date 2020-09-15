@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    core
  * @subpackage plugin
@@ -25,9 +25,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['requiredby'] = '依赖于：{$a}';
-$string['type_customfield'] = '自定义字段';
-$string['type_customfield_plural'] = '自定义字段';
-$string['type_plagiarism'] = '反抄袭插件';
-$string['type_plagiarism_plural'] = '反抄袭插件';
-$string['type_portfolio_plural'] = '卷宗夹';
+$string['type_block'] = '板块';
+$string['type_block_plural'] = '板块';
+$string['type_repository'] = '文件仓库';
+$string['type_repository_plural'] = '文件仓库';
+$string['uninstallextraconfirmblock'] = '本板块有 {$a->instances} 个实例';

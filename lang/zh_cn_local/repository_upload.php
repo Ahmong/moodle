@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    repository
  * @subpackage upload
@@ -25,6 +25,5 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['configplugin'] = '配置上传文件容器';
 $string['pluginname'] = '上传文件';
-$string['privacy:metadata'] = '上传文件容器不保存任何个人数据。';
+$string['privacy:metadata'] = '上传文件文件仓库不存储或发送任何个人数据。';

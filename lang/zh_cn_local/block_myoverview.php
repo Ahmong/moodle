@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    block
  * @subpackage myoverview
@@ -25,12 +25,14 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['availablegroupings'] = '可用的过滤器';
-$string['availablegroupings_desc'] = '可让用户选择的课程过滤器。如果都不选，则显示所有课程。';
-$string['customfield'] = '自定义字段';
-$string['customfiltergrouping'] = '要使用的字段';
-$string['customfiltergrouping_nofields'] = '此参数要求设置一个自定义字段，此字段任何人可见。';
-$string['displaycategories'] = '显示分类';
-$string['displaycategories_help'] = '在仪表盘的课程条目中显示课程分类，包括卡片、列表和摘要。';
-$string['layouts'] = '可用布局';
-$string['layouts_help'] = '可让用户选择的课程概览布局。如果都不选择，则使用卡片布局。';
+$string['aria:controls'] = '课程综述控制';
+$string['defaulttab_desc'] = '当用户首次查看自己的课程综述时显示的标签页。当他再次返回自己的课程综述时，用户的当前标签页已经被记录下来了。';
+$string['layouts_help'] = '用户可以选择哪些课程综述显示框架。如果没有选择任何项，则使用卡片框架。';
+$string['myoverview:myaddinstance'] = '增加一个新的课程综述板块到仪表板';
+$string['pluginname'] = '课程综述';
+$string['privacy:metadata:overviewgroupingpreference'] = '课程综述板块的分组偏好。';
+$string['privacy:metadata:overviewlasttab'] = '此数据存储了用户在课程综述页面最后选择的标签页。';
+$string['privacy:metadata:overviewpagingpreference'] = '课程综述板块分页偏好。';
+$string['privacy:metadata:overviewsortpreference'] = '课程综述板块的排序偏好。';
+$string['privacy:metadata:overviewviewpreference'] = '课程综述板块的显示偏好';
+$string['timeline'] = '时间线';

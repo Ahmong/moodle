@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://47.94.85.212
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    core
  * @subpackage completion
@@ -25,14 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['activitieslabel'] = '活动 / 资源';
-$string['bulkactivitycompletion'] = '批量编辑活动跟踪状态';
-$string['bulkactivitydetail'] = '选择需要进行批量编辑的活动。';
-$string['defaultcompletion'] = '默认活动进度跟踪';
-$string['eventdefaultcompletionupdated'] = '用于活动跟踪更新的默认值';
-$string['manual'] = '手动';
-$string['privacy:metadata:coursemodulesummary'] = '保存用户的活动跟踪数据';
-$string['privacy:metadata:overrideby'] = '覆盖活动跟踪数据的用户的用户ID';
-$string['privacy:metadata:timemodified'] = '活动跟踪更改的时间';
-$string['privacy:metadata:userid'] = '课程和活动跟踪数据关联的用户的用户ID';
-$string['withconditions'] = '条件完成';
+$string['configenablecompletion'] = '如果启用，则可以设置课程和活动完成条件。建议设置活动完成条件，以便在用户的个人主页的课程综述里能够显示有意义的数据。';
+$string['enablecompletion_help'] = '如果启用，则可以设置课程和/或活动完成条件。建议启用本参数，以便在用户的个人主页的课程综述里能够显示有意义的数据。';
+$string['err_nousers'] = '课程或小组中没有可以显示完成信息的学生。（默认情况下，只显示学生的完成信息，所以没有学生的话，您就会看到这个错误。管理员可以修改此选项。）';
+$string['manualselfcompletionnote'] = '提醒：如果启用手动自设完成，则应当在课程中将“自设完成”板块添加上。';

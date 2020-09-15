@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    block
  * @subpackage online_users
@@ -25,5 +25,5 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['onlinestatushiding'] = '隐藏在线状态';
-$string['onlinestatushiding_desc'] = '如启用，用户可选择对其他人隐藏自己的在线状态。';
+$string['online_users:addinstance'] = '新增一个在线用户板块';
+$string['online_users:myaddinstance'] = '在个人主页新增一个在线用户板块';

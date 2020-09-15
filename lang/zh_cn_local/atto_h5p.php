@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    atto
  * @subpackage h5p
@@ -25,5 +25,4 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['instructions'] = '您可以这样插入一段H5P内容：输入一个URL<strong>或者<strong>上传一个H5P文件。';
-$string['noh5pcontent'] = '未添加H5P内容';
+$string['browserepositories'] = '浏览仓库...';

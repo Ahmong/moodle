@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    core
  * @subpackage question
@@ -25,7 +25,5 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['cannotdeletetopcat'] = '顶层类别不能删除。';
-$string['cannotedittopcat'] = '顶层类别不能被编辑。';
-$string['notagfiltersapplied'] = '没有应用标签过滤器';
-$string['questionsmovedto'] = '仍在使用的题目将移到父课程分类的“{$a}”中。';
+$string['cannotdeletecate'] = '这是本场景的默认类别，您不能删除它。';
+$string['defaultmark'] = '默认评分';

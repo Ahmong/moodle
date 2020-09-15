@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    mod
  * @subpackage data
@@ -25,5 +25,15 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['latlongotherfields'] = '其他字段';
-$string['resetsettings'] = '重置过滤器';
+$string['autogenallforms'] = '生成所有默认模板';
+$string['defaultfielddelimiter'] = '（默认为半角逗号","）';
+$string['defaultfieldenclosure'] = '默认为空';
+$string['defaultsortfield'] = '默认排序字段';
+$string['emptyadd'] = '新增模板为空，生成默认表单...';
+$string['indicator:cognitivedepthdef_help'] = '参与人在时间分片期间的活动-数据库中体现的认知参与度（级别 = 未看，已看，提交）';
+$string['indicator:socialbreadth'] = '数据库活动社交度';
+$string['indicator:socialbreadth_help'] = '这个指标是基于学生在数据库活动中所达到的社交广度。';
+$string['indicator:socialbreadthdef'] = '数据库活动社交度';
+$string['indicator:socialbreadthdef_help'] = '参与人在时间分片期间的活动-数据库中体现的社交参与度（级别 = 未参与，单独参与）';
+$string['moreurl'] = '更多URL';
+$string['url'] = 'URL';

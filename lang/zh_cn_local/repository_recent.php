@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    repository
  * @subpackage recent
@@ -25,8 +25,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['configplugin'] = '配置最近使用文件容器';
-$string['pluginname'] = '最近使用文件';
-$string['privacy:metadata'] = '最近使用文件容器插件不保存任何个人数据。';
-$string['recent:view'] = '查看最近使用文件容器插件';
-$string['recentfilesnumber'] = '最近使用文件数';
+$string['configplugin'] = '“最近文件”文件仓库配置';
+$string['privacy:metadata'] = '最近文件文件仓库不存储或发送任何个人数据。';
+$string['recent:view'] = '查看最近文件文件仓库插件';

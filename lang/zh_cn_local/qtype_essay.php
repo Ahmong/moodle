@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://47.94.85.212
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    qtype
  * @subpackage essay
@@ -25,5 +25,5 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['acceptedfiletypes'] = '有效文件类型';
-$string['acceptedfiletypes_help'] = '输入文件扩展名清单将限定允许的文件类型。如果为空，则允许所有类型的文件。';
+$string['graderinfo'] = '给教师的信息';
+$string['graderinfoheader'] = '教师信息';

@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    tool
  * @subpackage filetypes
@@ -25,4 +25,5 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['groups_help'] = '此类型所属的文件类型组的可选列表。通用的分类如“文件”和“图像”等。';
+$string['groups'] = '类型组';
+$string['groups_help'] = '（可选的）此文件类型所属的类型组列表。一般是通用的类型如“文件”和“图像”';

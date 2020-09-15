@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    tool
  * @subpackage usertours
@@ -25,5 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['filter_header'] = '使用导航过滤器';
-$string['filter_help'] = '选择使用导航的显示条件。所有过滤器都必须匹配将显示给用户的一个使用导航。';
+$string['block_named'] = '版块命名为\'{$a}\'';
+$string['sharedtourslink'] = '用户导航库';
+$string['tour3_content_overview'] = '课程综述板块显示您已注册的所有课程。您可以选择显示当前进行中的课程，或者历史课程，或者未来的课程，或者您加了星标的课程。';
+$string['tour3_title_overview'] = '课程综述';

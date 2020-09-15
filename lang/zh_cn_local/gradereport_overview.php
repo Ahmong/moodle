@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    gradereport
  * @subpackage overview
@@ -25,7 +25,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['eventgradereportviewed'] = '总览报表已显示';
-$string['overview:view'] = '查看总览报表';
-$string['pluginname'] = '总览报表';
-$string['privacy:metadata'] = '成绩总览报表只显示存储在其他位置的数据。';
+$string['eventgradereportviewed'] = '成绩总览已显示';
+$string['gradesoverview'] = '成绩综述';
+$string['overview:view'] = '查看成绩总览';
+$string['pluginname'] = '成绩总览';
+$string['privacy:metadata'] = '成绩总览只显示存储在其他位置的数据。';

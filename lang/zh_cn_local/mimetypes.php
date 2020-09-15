@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://47.94.85.212
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    core
  * @subpackage mimetypes
@@ -25,4 +25,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['text/csv'] = '逗号分隔格式';
+$string['application/vnd.oasis.opendocument.spreadsheet'] = 'OpenDoc电子表格';
+$string['application/vnd.oasis.opendocument.spreadsheet-template'] = 'OpenDoc电子表格模板';
+$string['application/vnd.oasis.opendocument.text'] = 'OpenDoc文本文档';
+$string['application/vnd.oasis.opendocument.text-template'] = 'OpenDoc文本模板';
+$string['application/vnd.oasis.opendocument.text-web'] = 'OpenDoc 网页模板';
+$string['application/x-javascript'] = 'JavaScript源';

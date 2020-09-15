@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://47.94.85.212
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    gradereport
  * @subpackage user
@@ -25,9 +25,5 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['eventgradereportviewed'] = '查看用户成绩报告';
-$string['myself'] = '我自己';
-$string['otheruser'] = '用户';
-$string['privacy:metadata:preference:gradereport_user_view_user'] = '在成绩报告中显示当前用户的成绩还是另一个用户的成绩';
-$string['tablesummary'] = '本表列出成绩项目并包括成绩项目的分类（如果成绩项目包含在某个分类下）。';
-$string['viewas'] = '报告内容';
+$string['eventgradereportviewed'] = '查看个人成绩单';
+$string['pluginname'] = '个人成绩单';

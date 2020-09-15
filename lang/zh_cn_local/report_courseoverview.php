@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    report
  * @subpackage courseoverview
@@ -25,4 +25,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['courseoverview:view'] = '查看课程总览报表';
+$string['courseoverview:view'] = '查看课程成绩总览';
+$string['pluginname'] = '课程综述';
+$string['privacy:metadata'] = '课程综述插件不存储任何个人数据。';

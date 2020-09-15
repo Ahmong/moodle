@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    block
  * @subpackage starredcourses
@@ -25,5 +25,4 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['displaycategories'] = '显示类别';
-$string['displaycategories_help'] = '在标星课程板块条目中显示课程分类。';
+$string['starredcourses:myaddinstance'] = '在个人主页新增一个星标课程板块';

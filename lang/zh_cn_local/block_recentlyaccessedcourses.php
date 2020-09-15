@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    block
  * @subpackage recentlyaccessedcourses
@@ -25,5 +25,5 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['displaycategories'] = '显示类别';
-$string['displaycategories_help'] = '在最近访问课程的板块条目中显示课程分类。';
+$string['privacy:metadata'] = '最近访问过的课程板块不保存任何个人数据';
+$string['recentlyaccessedcourses:myaddinstance'] = '在个人主页中新增一个最近访问过的课程板块';

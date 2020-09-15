@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    media
  * @subpackage videojs
@@ -25,5 +25,4 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['pluginname'] = 'VideoJS播放器';
-$string['privacy:metadata'] = 'VideoJS播放器多媒体插件不保存任何个人数据。';
+$string['pluginname_help'] = '用浏览器的内置视频播放器播放视频文件的JavaScript封装器，并以Flash播放器为后备播放器。（所支持的视频格式取决于浏览器。）';

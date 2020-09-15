@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    core
  * @subpackage cache
@@ -25,7 +25,4 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['cachedef_calculablesinfo'] = '可计算的分析信息';
-$string['cachedef_coursecat'] = '特定用户的课程分类列表';
-$string['cachedef_coursecatrecords'] = '课程分类记录';
-$string['cachedef_coursecattree'] = '课程分类树';
+$string['cachedef_repositories'] = '文件仓库实例数据';

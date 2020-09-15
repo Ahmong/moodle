@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    repository
  * @subpackage url
@@ -25,4 +25,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['configplugin'] = '配置URL下载器容器';
+$string['configplugin'] = 'URL文件仓库类型配置';
+$string['privacy:metadata'] = 'URL下载器文件仓库插件不存储或发送任何个人文件。';
+$string['url'] = 'URL';

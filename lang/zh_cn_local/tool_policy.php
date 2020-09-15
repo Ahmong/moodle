@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    tool
  * @subpackage policy
@@ -25,5 +25,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['filters'] = '过滤器';
-$string['nofiltersapplied'] = '没有应用过滤器';
+$string['inactivate'] = '将状态设置为“未激活”';
+$string['privacy:metadata:versions:archived'] = '政策状态(激活或未激活)。';
+$string['status2'] = '未激活';

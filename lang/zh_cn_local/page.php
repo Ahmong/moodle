@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    mod
  * @subpackage page
@@ -25,5 +25,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['printlastmodified'] = '显示最后更新日期';
-$string['printlastmodifiedexplain'] = '在内容下面显示最后更新日期？';
+$string['indicator:cognitivedepthdef_help'] = '参与人在时间分片期间的资源-网页中体现的认知参与度（级别 = 未看，已看）';
+$string['indicator:socialbreadth'] = '网页资源社交度';
+$string['indicator:socialbreadth_help'] = '这个指标是基于学生在网页资源中所达到的社交广度。';
+$string['indicator:socialbreadthdef'] = '网页资源社交度';
+$string['indicator:socialbreadthdef_help'] = '参与人在时间分片期间的资源-网页中体现的社交参与度（级别 = 未参与，单独参与）';
+$string['popupheightexplain'] = '指定弹出窗口的默认高度。';
+$string['popupwidthexplain'] = '指定弹出窗口的默认宽度。';

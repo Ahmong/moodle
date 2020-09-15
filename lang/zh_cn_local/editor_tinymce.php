@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    editor
  * @subpackage tinymce
@@ -25,4 +25,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['advimage_dlg:misc'] = '其他';
+$string['advanced_dlg:image_src'] = '图像的URL';
+$string['advanced_dlg:link_is_email'] = '您输入的URL是email地址，是否需要加上mailto:前缀？';
+$string['advanced_dlg:link_is_external'] = '您输入的URL是一个外部超链接，是否要加上 http:// 前缀？';
+$string['advimage_dlg:src'] = '图像的URL';
+$string['advlink_dlg:is_email'] = '您输入的URL似乎是email地址,是否需要加 mailto:前缀？';
+$string['advlink_dlg:is_external'] = '您输入的URL似乎为外部超连结，是否要加上 "http://" 前缀？';
+$string['advlink_dlg:popup_url'] = '弹出窗口的URL';
+$string['media_dlg:file'] = '文件/URL';

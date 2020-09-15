@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    tool
  * @subpackage oauth2
@@ -25,4 +25,5 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['createnewnextcloudissuer'] = '创建 Nextcloud 服务';
+$string['createnewnextcloudissuer'] = '创建Nextcloud服务';
+$string['systemaccountconnected_help'] = '系统账户可以为插件提供高级特性。第三方登陆不需要绑定系统账号。有些插件可能会依赖OAuth服务，若没有绑定系统账户，插件功能可能会受限。比如文件仓库插件如果没有系统账户可能会无法使用权限控制。';

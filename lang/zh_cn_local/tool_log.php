@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    tool
  * @subpackage log
@@ -25,5 +25,4 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['configlogplugins'] = '请启用所有需要的插件，并将它们调整到合适的顺序。';
-$string['reportssupported'] = '支持的报表';
+$string['exportlog'] = '导出时包含日志';

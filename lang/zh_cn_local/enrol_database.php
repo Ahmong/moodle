@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    enrol
  * @subpackage database
@@ -25,5 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['defaultcategory'] = '默认的新课程分类';
-$string['defaultcategory_desc'] = '自动创建的课程的默认分类。当未指定类别id或类别id不存在时使用。';
+$string['defaultcategory'] = '新课程的默认类别';
+$string['defaultcategory_desc'] = '自动创建的课程的默认类别。当未指定类别id或类别id不存在时使用。';
+$string['defaultrole'] = '默认角色';
+$string['defaultrole_desc'] = '如果外部表中未指定其他角色，会默认分配此角色。';

@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    mod
  * @subpackage label
@@ -25,9 +25,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['configdndmedia'] = '当拖拽一个多媒体文件到课程时，创建一个标签。';
-$string['configdndresizeheight'] = '当通过拖拽图片创建标签时，如果图片高度大于设置值，则调整其高度（0表示不调整）。';
-$string['configdndresizewidth'] = '当通过拖拽图片创建标签时，如果图片宽度大于设置值，则调整其宽度（0表示不调整）。';
-$string['dndmedia'] = '多媒体拖拽';
-$string['dndresizeheight'] = '调整拖拽标签的高度';
-$string['dndresizewidth'] = '调整拖拽标签的宽度';
+$string['indicator:cognitivedepthdef_help'] = '参与人在时间分片期间的资源-标签中体现的认知参与度（级别 = 未看，已看）';
+$string['indicator:socialbreadth'] = '标签资源社交度';
+$string['indicator:socialbreadth_help'] = '这个指标是基于学生在标签资源中所达到的社交广度。';
+$string['indicator:socialbreadthdef'] = '标签资源社交度';
+$string['indicator:socialbreadthdef_help'] = '参与人在时间分片期间的资源-标签中体现的社交参与度（级别 = 未参与，单独参与）';

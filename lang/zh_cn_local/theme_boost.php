@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://47.94.85.212
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    theme
  * @subpackage boost
@@ -25,4 +25,4 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['pluginname'] = 'Boost主题';
+$string['presetfiles_desc'] = '使用预设文件可明显改变主题外观。有关创建及分享您自己的主题预设文件的方法参见 <a href=https://docs.moodle.org/dev/Boost_Presets>Boost presets</a> , 也可以访问 <a href=http://moodle.net/boost>Presets repository</a> 查看他人分享的主题预设文件。';

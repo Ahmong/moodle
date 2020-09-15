@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://47.94.85.212
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    report
  * @subpackage insights
@@ -25,5 +25,4 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['insights'] = '透视';
-$string['pluginname'] = '透视';
+$string['timerange'] = '分析时间分片';

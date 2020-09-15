@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    core
  * @subpackage my
@@ -25,4 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['defaultprofilepage'] = '默认个人资料页';
+$string['defaultpage'] = '默认的我的Moodle页面';
+$string['defaultprofilepage'] = '默认的个人资料页';
+$string['pinblocks'] = '为个人主页配置固定版块';
+$string['pinblocksexplan'] = '您在这里设置的板块配置将显示（但不可编辑）在所有用户的“个人主页”上。';

@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    repository
  * @subpackage wikimedia
@@ -25,4 +25,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['configplugin'] = '配置维基媒体容器';
+$string['configplugin'] = 'Wikimedia文件仓库类型配置';
+$string['privacy:metadata:repository_wikimedia'] = 'Wikimedia文件仓库插件存储用户偏好，并从Moodle向外部系统发送用户数据。';
+$string['privacy:metadata:repository_wikimedia:preference:maxheight'] = 'Wikimedia文件仓库的用户最大高度的偏好参数。';
+$string['privacy:metadata:repository_wikimedia:preference:maxwidth'] = 'Wikimedia文件仓库的用户最大宽度的偏好参数。';
+$string['privacy:metadata:repository_wikimedia:search_text'] = 'Wikimedia文件仓库的用户搜索文本查询。';
+$string['wikimedia:view'] = '查看Wikimedia文件仓库';

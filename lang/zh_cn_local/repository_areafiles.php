@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    repository
  * @subpackage areafiles
@@ -25,4 +25,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['configplugin'] = '配置内嵌文件容器';
+$string['areafiles:view'] = '查看文件仓库内嵌的文件';
+$string['configplugin'] = '“内嵌文件”文件仓库配置';
+$string['privacy:metadata'] = '内嵌文件文件仓库不存储发送任何个人文件。';

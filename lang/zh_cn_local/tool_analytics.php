@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    tool
  * @subpackage analytics
@@ -25,4 +25,17 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['clievaluationandpredictions'] = '一个计划的任务将在启用的模型中迭代，并获得预测。将禁用通过web界面进行模型评估。您可以通过禁用<a href="{$a}">\'onlycli\'</a> 分析设置来允许这些程序通过web界面来手动执行。';
+$string['alltimesplittingmethods'] = '所有分析时间分片法';
+$string['clienablemodel'] = '您可以通过它的ID选择一个分析时间分片来启用这个模型。请注意，您以后还可以使用web接口启用它（为‘空’将退出）。';
+$string['currenttimesplitting'] = '当前分析时间分片';
+$string['edittrainedwarning'] = '这个模型已经被训练过了。注意，改变其指标或分析时间分片将会删除之前的预测，并开始产生新的预测。';
+$string['errorcantenablenotimesplitting'] = '在启用模型之前，您需要选择一个分析时间分片';
+$string['invalidcurrenttimesplitting'] = '当前的分析时间分片对于该模型的目标是无效的。请选择其他时间分片。';
+$string['invalidtimesplitting'] = '选定的分析时间分片对于选定的目标无效。';
+$string['invalidtimesplittinginmodels'] = '某些模型使用的分析时间分片法是无效的。请为以下模型选择其他时间分片法：{$a}';
+$string['modeltimesplitting'] = '分析时间分片';
+$string['scheduledanalysisresults'] = '结果使用{$a->name}分析时间分片法';
+$string['scheduledanalysisresultscli'] = '结果使用{$a->name} (id: {$a->id})分析时间分片';
+$string['selecttimesplittingforevaluation'] = '选择要用于评估模型配置的分析时间分片法。';
+$string['timesplittingnotdefined'] = '未定义分析时间分片法。';
+$string['timesplittingnotdefined_help'] = '在启用模型之前，您需要选择分析时间分片法。';

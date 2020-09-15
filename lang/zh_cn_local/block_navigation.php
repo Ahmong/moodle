@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    block
  * @subpackage navigation
@@ -25,4 +25,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['linkcategoriesdesc'] = '以链接的方式显示分类';
+$string['enabledockdesc'] = '允许用户停靠此板块';
+$string['navigation:addinstance'] = '新增导航板块';
+$string['navigation:myaddinstance'] = '在个人主页新增一个导航板块';

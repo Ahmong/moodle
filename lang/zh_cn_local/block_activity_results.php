@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://web.parall.docker/moodle
+ * Local language pack from http://mdlsrv1.mydev.lan
  *
  * @package    block
  * @subpackage activity_results
@@ -25,10 +25,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['config_name_format'] = '结果隐私';
-$string['defaultdecimalplaces'] = '小数位数';
-$string['defaultdecimalplaces_desc'] = '默认显示小数点后位数';
-$string['defaultnameoptions'] = '结果隐私';
-$string['defaultnameoptions_desc'] = '默认情况下如何标识学生？';
-$string['defaultshowgroups'] = '默认显示分组';
-$string['defaultshowgroups_desc'] = '默认显示分组而不是学生（仅当活动支持分组时）';
+$string['activity_results:addinstance'] = '新增一个活动结果板块';
+$string['config_select_activity'] = '这个板块是要显示哪一个活动的结果？';
+$string['configuredtoshownothing'] = '这个板块的设置不允许它显示任何结果。';
+$string['error_emptyactivityid'] = '请配置这一板块，并选择他要显示哪一个活动的结果。';
+$string['error_nogroupsexist'] = '错误：这个板块设置为以群组模式显示成绩，但这儿没有设置群组。';
+$string['error_unsupportedgradetype'] = '错误：这个板块并不支持活动所选择使用的评分方式。';
