@@ -1654,6 +1654,8 @@ class page_requirements_manager {
         $this->js_call_amd('core/log', 'setConfig', array($logconfig));
         // Add any global JS that needs to run on all pages.
         $this->js_call_amd('core/page_global', 'init');
+        // TODO: 将初始化操作移到与插件相关的文件中
+        $this->js_call_amd('repository_aliyun/alisdk', 'initGeTVideoList');
 
         // Call amd init functions.
         $output .= $this->get_amd_footercode();
