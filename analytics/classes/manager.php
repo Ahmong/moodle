@@ -763,7 +763,7 @@ class manager {
             }
         }
 
-        static::validate_models_declaration($models);
+        $models = static::validate_models_declaration($models);
 
         return $models;
     }
@@ -823,10 +823,12 @@ class manager {
      *  ];
      *
      * @param array $models List of declared models.
+     * @return array $models List of validated models.
      * @throws \coding_exception Exception thrown in case of invalid syntax.
      */
-    public static function validate_models_declaration(array $models) {
+    public static function validate_models_declaration(array $models): array {
 
+        $new_models = [];
         foreach ($models as $model) {
             if (!isset($model['target'])) {
                 throw new \coding_exception('Missing target declaration');
@@ -840,11 +842,13 @@ class manager {
                 throw new \coding_exception('Missing indicators declaration');
             }
 
-            foreach ($model['indicators'] as $indicator) {
+            $indicators = $model['indicators'];
+            foreach ($indicators as $key => $indicator) {
                 if (!static::is_valid($indicator, '\core_analytics\local\indicator\base')) {
-                    throw new \coding_exception('Invalid indicator classname', $indicator);
+                    unset($indicators[$key]);
                 }
             }
+            $model['indicators'] = $indicators;
 
             if (isset($model['timesplitting'])) {
                 if (substr($model['timesplitting'], 0, 1) !== '\\') {
@@ -858,7 +862,9 @@ class manager {
             if (!empty($model['enabled']) && !isset($model['timesplitting'])) {
                 throw new \coding_exception('Cannot enable a model without time splitting method specified');
             }
+            array_push($new_models, $model);
         }
+        return $new_models;
     }
 
     /**
