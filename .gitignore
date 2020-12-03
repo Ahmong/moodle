@@ -51,3 +51,4 @@ atlassian-ide-plugin.xml
 /local/azure_storage
 /local/oss
 /lib/ignoredplugins.json
+/repository/aliyun
